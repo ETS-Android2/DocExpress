@@ -21,7 +21,7 @@ The existing record management system in our government offices is paper based. 
 **Project Scope**
 Doc express is basically an Android application that will be helping organization in organize records and files and requests in a well-organized way. It will improve the working efficiency of the office. With this application we will easily be able to track the documents. We will also be able to generate reports so we can see the progress of the department.
 
-**Main features will be following:**
+**Main features**
 1.	Defined tracking route
 2.	Calculation of expected number of days to process the file/document
 3.	Current state of document
