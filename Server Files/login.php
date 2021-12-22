@@ -18,7 +18,7 @@ if(isset($_POST["email"],$_POST["pass"]))
 	if($row)
 	{
 		$emp_id=$row['EMP_ID'];
-		$emp_q="SELECT * FROM profile_emp WHERE emp_id = $emp_id AND password='$pass'";
+		$emp_q="SELECT * FROM employee_n WHERE emp_id = $emp_id AND password='$pass'";
 		$emp_q_id = oci_parse($con, $emp_q); 		
 		$emp_q_r = oci_execute($emp_q_id);
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
@@ -46,29 +46,6 @@ if(isset($_POST["email"],$_POST["pass"]))
 		$response['reqcode']="3"; 
 	}
 }
-/*else
-{
-	$response['id']="NA";
-	$response['reqmsg']="Incomplete Request!";
-	$response['reqcode']="4";
-}*/
-//$email="amir.rehman@nu.edu.pk";
-//$pass="123@12";
-//$emp_q="SELECT emp_id FROM employee_n WHERE emp_email = '$email' ";
-//$emp_q_id = oci_parse($con, $emp_q); 		
-//$emp_q_r = oci_execute($emp_q_id);
-//$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
-//echo $row['EMP_ID']."<br>";
-//$emp_id=$row['EMP_ID'];
-//$emp_q="SELECT * FROM profile_emp WHERE emp_id = $emp_id AND password='$pass'";
-//$emp_q_id = oci_parse($con, $emp_q); 		
-//$emp_q_r = oci_execute($emp_q_id);
-//$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
-//if($row)
-//{
-//echo $row['EMP_ID']."<br>";
-//echo $row['PASSWORD']."<br>"; 
-//}
 $x=json_encode($response);
 echo $x;
 oci_close($con);
