@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DocExpress</string>
+    <string name="Document_Tracking">
+        <u>Document Tracking</u>
+    </string>
+    <string name="Document_Detail">
+        <u>Document Detail</u>
+    </string>
+</resources>
