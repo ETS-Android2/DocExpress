@@ -1,105 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".signIn">
 
-
-    <ImageView
-        android:id="@+id/signIn_backButton"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
-    <ImageView
-        android:id="@+id/signIn_DocExpress"
-        android:layout_width="261dp"
-        android:layout_height="186dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIn_backButton"
-        app:srcCompat="@drawable/logo" />
-
-    <EditText
-        android:id="@+id/signIn_Email"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/ic_boundary"
-        android:hint="Email"
-        android:paddingStart="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIn_DocExpress" />
-
-    <EditText
-        android:id="@+id/signIn_Password"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/signIn_Email"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_boundary"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIn_Email" />
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signIn_Login"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/signIn_Password"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_roung_blue"
-        android:paddingStart="10dp"
-        android:text="Login"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIn_Password" />
-
-    <LinearLayout
-        android:layout_width="195dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/signIn_Login"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signIn_Login">
-
-        <TextView
+        <ImageView
+            android:id="@+id/signIn_backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New to Docexpress? " />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
-        <TextView
-            android:id="@+id/signUp"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/signIn_DocExpress"
+            android:layout_width="261dp"
+            android:layout_height="186dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signIn_backButton"
+            app:srcCompat="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/signIn_Email"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_boundary"
+            android:hint="Email"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signIn_DocExpress" />
+
+        <EditText
+            android:id="@+id/signIn_Password"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/signIn_Email"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_boundary"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signIn_Email" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signIn_Login"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/signIn_Password"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_roung_blue"
+            android:paddingStart="10dp"
+            android:text="Login"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signIn_Password" />
+
+        <LinearLayout
+            android:layout_width="195dp"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textColor="#1F55F3" />
+            android:layout_below="@+id/signIn_Login"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signIn_Login">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New to Docexpress? " />
+
+            <TextView
+                android:id="@+id/signUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:textColor="#1F55F3" />
+        </LinearLayout>
 
     </LinearLayout>
+<!--    <ProgressBar-->
+<!--        style="?android:attr/progressBarStyleLarge"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/progressBar"-->
+<!--        android:progressDrawable="@anim/circle_progress_bar"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="50dp"/>-->
 
     <!--    <com.google.android.material.textfield.TextInputLayout-->
     <!--        android:id="@+id/textInputLayout"-->
@@ -119,4 +139,4 @@
     <!--            tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />-->
 
     <!--    </com.google.android.material.textfield.TextInputLayout>-->
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

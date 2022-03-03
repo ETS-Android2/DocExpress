@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,13 +6,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ProgressScreen">
-
-
-        <ImageView
+    <LinearLayout
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linear_lay">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Applications: "
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_margin="20dp"
+        android:id="@+id/all_applications"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:layout_margin="20dp"
+            android:id="@+id/all_applications_count">
+    </TextView>
+    </LinearLayout>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_below="@+id/linear_lay"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ongoing_stat"/>
-
+            android:layout_height="500dp"
+            android:id="@+id/pieChart"/>
+    <LinearLayout
+        android:layout_below="@id/pieChart"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linear_lay2">
+        <TextView
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Summary"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:layout_margin="10dp"
+            android:id="@+id/summary"></TextView>
+    </LinearLayout>
     </RelativeLayout>
-
-</ScrollView>

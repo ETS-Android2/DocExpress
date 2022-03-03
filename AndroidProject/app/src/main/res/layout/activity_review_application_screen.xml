@@ -32,17 +32,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/Document_Detail"
             android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:padding="0dp"
+            android:text="@string/Document_Detail"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="0dp"
+            android:padding="0dp">
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -59,14 +68,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Document Name: "
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -79,10 +96,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_margin="0dp"
+            android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -96,13 +117,8 @@
                 android:layout_margin="5dp"
                 android:text="12-10-2021"
                 android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -119,14 +135,18 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_margin="0dp"
+            android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Attachment"
+                android:text="Attachment: "
                 android:textStyle="bold" />
 
             <TextView
@@ -136,13 +156,8 @@
                 android:layout_margin="5dp"
                 android:text="0"
                 android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -159,10 +174,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_margin="0dp"
+            android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -177,32 +196,39 @@
                 android:text="XYZ"
                 android:textStyle="bold" />
         </LinearLayout>
+    <LinearLayout
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Department:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/review_Department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="CS"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
         <LinearLayout
+            android:layout_margin="0dp"
+            android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Department:"
-                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_Department"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="CS"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -221,8 +247,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="0dp"
+            android:padding="0dp">
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -239,14 +269,20 @@
         </LinearLayout>
 
         <TextView
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:paddingTop="0dp"
             android:text="@string/Document_Tracking"
             android:textSize="20sp"
-            android:paddingTop="20dp"
-            android:layout_gravity="center"
             android:textStyle="bold" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

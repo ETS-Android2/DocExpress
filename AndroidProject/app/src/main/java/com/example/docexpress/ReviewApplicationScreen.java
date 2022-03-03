@@ -1,23 +1,55 @@
 package com.example.docexpress;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReviewApplicationScreen extends AppCompatActivity {
+    RecyclerView rv;
+    List<tracked_document> track_doc_list;
 
     TextView Doc_ID, Doc_Name, Start_Date, Due_Date, Attachment, Status, Emp_Name, Department, Applicant_ID, Applicant_Name;
     String strDoc_ID, strDoc_Name, strStart_Date, strDue_Date, strAttachment, strStatus, strEmp_Name, strDepartment, strApplicant_ID, strApplicant_Name;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_application_screen);
+        rv=findViewById(R.id.rv);
+        track_doc_list=new ArrayList<>();
+        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+        Cursor data=helper.getdoctracking();
+        while (data.moveToNext())
+        {
+            track_doc_list.add(new tracked_document(data.getString(0),data.getString(1),data.getString(2),data.getString(3)));
+        }
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
+//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
 
+        MyRvAdapter adapter=new MyRvAdapter(track_doc_list,this);
+        RecyclerView.LayoutManager lm=new LinearLayoutManager(this);
+        rv.setLayoutManager(lm);
+        rv.setAdapter(adapter);
         Doc_ID= findViewById(R.id.review_TrackingID);
         Doc_Name = findViewById(R.id.review_DocName);
         Start_Date = findViewById(R.id.review_StartDate);
