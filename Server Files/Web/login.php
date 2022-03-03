@@ -6,10 +6,17 @@ include "conn.php";
 include "employee.php";
 $response=array();
 
-if(isset($_POST["email"],$_POST["pass"]))
+
+//header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+//if(isset($_POST["email"],$_POST["pass"]))
+if($data)
 {
-	$email=$_POST["email"];
-	$pass=$_POST["pass"]; 
+	$email=$data["email"];
+	$pass=$data["pass"]; 
 	$emp_q="SELECT emp_id FROM employee_n WHERE emp_email = '$email' ";
 	$emp_q_id = oci_parse($con, $emp_q); 		
 	$emp_q_r = oci_execute($emp_q_id);
@@ -47,6 +54,7 @@ if(isset($_POST["email"],$_POST["pass"]))
 	}
 }
 $x=json_encode($response);
+header('Content-Type: application/json; charset=utf-8');
 echo $x;
 oci_close($con);
 if($con)
