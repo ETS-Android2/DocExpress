@@ -436,6 +436,7 @@
         android:id="@+id/nav_view"
         android:layout_gravity="start"
         android:layout_marginTop="?attr/actionBarSize"
+        app:headerLayout="@layout/nav_header_layout"
         >
 
     </com.google.android.material.navigation.NavigationView>

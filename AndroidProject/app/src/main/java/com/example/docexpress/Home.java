@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -43,6 +44,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    TextView user_name_nav,user_job_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setSupportActionBar(toolbar);
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
+        View headerView=navigationView.getHeaderView(0);
+        user_name_nav=headerView.findViewById(R.id.user_name_text);
+        user_job_nav=headerView.findViewById(R.id.user_job_text);
+        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+        Cursor data=helper.getuserCount();
+        while (data.moveToNext())
+        {
+            user_name_nav.setText(data.getString(1));
+            user_job_nav.setText(data.getString(2));
+        }
+        data.close();
+        helper.close();
         ActionBarDrawerToggle actionBarDrawerToggle= new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -64,42 +78,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-//        MenuItem menuItem=findViewById(R.id.nav_menu);
-//        NavigationView navigationView=findViewById(R.id.nav_logout);
-//        navigationView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MyDbHelper helper=new MyDbHelper(getApplicationContext());
-//                helper.dropUserIdTable();
-//                helper.close();
-//                Intent intent=new Intent(getApplicationContext(),signIn.class);
-//                startActivity(intent);
-//            }
-//        });
-//        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                MyDbHelper helper=new MyDbHelper(getApplicationContext());
-//                helper.dropUserIdTable();
-//                helper.close();
-//                Intent intent=new Intent(getApplicationContext(),signIn.class);
-//                startActivity(intent);
-//                return false;
-//                            }
-//            }
-//        );
-//        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                Toast.makeText(getApplicationContext(),"Menu Expanded",Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                return false;
-//            }
-//        });
 
         Home_NewApplication = findViewById(R.id.start_doc_button);
         Home_TrackApplication = findViewById(R.id.track_doc_button);
@@ -115,11 +93,80 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 //            }
 //        });
 
-
         Home_closedApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Home.this, closedApplication.class));
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                try {
+                    requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_completed.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        String user_id_from_table="0";
+                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                        Cursor data= helper.getuserID();
+                        while (data.moveToNext())
+                        {
+                            user_id_from_table=data.getString(0);
+                        }
+                        data.close();
+                        helper.close();
+                        jsonBody.put("emp_id", user_id_from_table);
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                        helper.dropdocOngoingTable();
+                                        helper.createDocOngoingTable();
+                                        for(int i=1;i<jsonArray.length();i++)
+                                        {
+                                            JSONObject docdetail=jsonArray.getJSONObject(i);
+                                            String doc_id_ser=docdetail.getString("doc_id");
+                                            String doc_name_ser=docdetail.getString("doc_name");
+                                            String doc_start_date_ser=docdetail.getString("start_date");
+                                            String doc_end_date_ser=docdetail.getString("end_date");
+                                            String doc_app_id_ser=docdetail.getString("app_id");
+                                            String doc_app_name_ser=docdetail.getString("app_name");
+                                            helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                        }
+                                        helper.close();
+                                        startActivity(new Intent(Home.this, closedApplication.class));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -140,7 +187,77 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_OngoingApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Home.this, ongoing_Application_Screen.class));
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                try {
+                    requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_ongoing.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        String user_id_from_table="0";
+                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                        Cursor data= helper.getuserID();
+                        while (data.moveToNext())
+                        {
+                            user_id_from_table=data.getString(0);
+                        }
+                        data.close();
+                        helper.close();
+                        jsonBody.put("emp_id", user_id_from_table);
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                        helper.dropdocOngoingTable();
+                                        helper.createDocOngoingTable();
+                                        for(int i=1;i<jsonArray.length();i++)
+                                        {
+                                            JSONObject docdetail=jsonArray.getJSONObject(i);
+                                            String doc_id_ser=docdetail.getString("doc_id");
+                                            String doc_name_ser=docdetail.getString("doc_name");
+                                            String doc_start_date_ser=docdetail.getString("start_date");
+                                            String doc_end_date_ser=docdetail.getString("end_date");
+                                            String doc_app_id_ser=docdetail.getString("app_id");
+                                            String doc_app_name_ser=docdetail.getString("app_name");
+                                            helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                        }
+                                        helper.close();
+                                        startActivity(new Intent(Home.this, ongoing_Application_Screen.class));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -236,6 +353,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         });
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==R.id.nav_logout)
@@ -250,9 +368,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             return true;
         }
         return false;
-    }
-    public static String nullToEmpty(CharSequence str) {
-        return str == null ? "" : str.toString();
     }
 
     @Override

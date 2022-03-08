@@ -24,7 +24,7 @@ if($data)
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
 		$response['doc_completed']=$row['COMPLETED'];
 		
-		$emp_q="SELECT count(*) as ongoing FROM document WHERE emp_id = $emp_id GROUP BY DOC_STATUS HAVING DOC_STATUS=0";
+		$emp_q="SELECT count(*) as ongoing FROM document WHERE emp_id = $emp_id GROUP BY DOC_STATUS HAVING DOC_STATUS=2";
 		$emp_q_id = oci_parse($con, $emp_q); 		
 		$emp_q_r = oci_execute($emp_q_id);
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);

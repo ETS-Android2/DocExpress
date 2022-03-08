@@ -44,7 +44,7 @@ public class signIn extends AppCompatActivity {
     TextView signUp;
     String server_response;
     String signin_server_response2;
-    String signin_server_response_user_id;
+    String signin_server_response_user_id,user_name_ser,user_job_ser;
     int signin_server_response=0;
     JSONObject jo;
     String sSDR;
@@ -62,14 +62,6 @@ public class signIn extends AppCompatActivity {
         //spinner=(ProgressBar)findViewById(R.id.progressBar);
         //spinner.setVisibility(View.GONE);
         setupListeners();
-
-//        signIn_Button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(signIn.this, Home.class));
-//
-//            }
-//        });
     }
     private void setupListeners() {
         signIn_Button.setOnClickListener(new View.OnClickListener() {
@@ -105,8 +97,8 @@ public class signIn extends AppCompatActivity {
                 HttpClient httpclient = new DefaultHttpClient(params);
                 //HttpPost httppost=new HttpPost( "http://192.168.18.83/fyp/loginget.php?email="+user_name+"pass="+pass_word);
                 //HttpPost httppost=new HttpPost( "http://192.168.1.9/fyp/mobile/login.php");
-                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/login.php";
-                    //Toast.makeText(getApplicationContext(),server_address,Toast.LENGTH_SHORT).show();
+                String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/login.php";
+                //Toast.makeText(getApplicationContext(),server_address,Toast.LENGTH_SHORT).show();
                 HttpPost httppost=new HttpPost( server_address);
                 BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("email", user_name);
                 BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("pass", pass_word);
@@ -129,9 +121,6 @@ public class signIn extends AppCompatActivity {
                         }
                         try{
                             server_response=stringBuilder.toString();
-                            //nodeRoot  = new JSONObject(server_response);
-                            //JSONObject nodeStats = nodeRoot.getJSONObject("id");
-                            //sSDR = nodeStats.toString();
                             jo=new JSONObject(server_response);
                             sSDR=jo.getString("reqcode");
                             signin_server_response=Integer.parseInt(sSDR);
@@ -139,6 +128,10 @@ public class signIn extends AppCompatActivity {
                             signin_server_response2=sSDR;
                             sSDR=jo.getString("id");
                             signin_server_response_user_id=sSDR;
+                            sSDR=jo.getString("emp_name");
+                            user_name_ser=sSDR;
+                            sSDR=jo.getString("emp_job");
+                            user_job_ser=sSDR;
                             //sSDR=Integer.toString(signin_server_response);
                         }
                         catch (Exception e)
@@ -157,11 +150,9 @@ public class signIn extends AppCompatActivity {
                         Toast t = Toast.makeText(getApplicationContext(),a,Toast.LENGTH_SHORT);
                         t.show();
                     }
-
                 }
                 catch(Exception e)
                 {
-
                     //Toast t = Toast.makeText(getApplicationContext(),"Failed To Connect",Toast.LENGTH_SHORT);
                     //t.show();
                 }
@@ -170,9 +161,9 @@ public class signIn extends AppCompatActivity {
                         //everything checked we open new activity
                         Toast t = Toast.makeText(getApplicationContext(),signin_server_response2,Toast.LENGTH_SHORT);
                         t.show();
-                        Toast.makeText(getApplicationContext(),signin_server_response_user_id,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),signin_server_response_user_id,Toast.LENGTH_SHORT).show();
                         MyDbHelper helper=new MyDbHelper(getApplicationContext());
-                        helper.insertUserID(signin_server_response_user_id);
+                        helper.insertUserID(signin_server_response_user_id,user_name_ser,user_job_ser);
                         helper.close();
                         Intent i = new Intent(signIn.this, Home.class);
                         startActivity(i);
@@ -194,15 +185,12 @@ public class signIn extends AppCompatActivity {
                 }
             }
         });
-
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
     }
-
     void checkUsername() {
         if (isEmpty(username)) {
             username.setError("You must enter username to login!");
@@ -213,7 +201,6 @@ public class signIn extends AppCompatActivity {
                 isValid = false;
             }
         }
-
         if (isEmpty(password)) {
             password.setError("You must enter password to login!");
             isValid = false;
@@ -223,41 +210,13 @@ public class signIn extends AppCompatActivity {
                 isValid = false;
             }
         }
-
-        //check email and password
-        //IMPORTANT: here should be call to backend or safer function for local check; For example simple check is cool
-        //For example simple check is cool
-//        if (isValid) {
-//            String usernameValue = username.getText().toString();
-//            String passwordValue = password.getText().toString();
-//            //if (usernameValue.equals("test@test.com") && passwordValue.equals("password1234")) {
-//            if (signin_server_response==1) {
-//                //everything checked we open new activity
-//                Toast t = Toast.makeText(getApplicationContext(),"SuccessFully Logged In",Toast.LENGTH_SHORT);
-//                t.show();
-//                Intent i = new Intent(signIn.this, Home.class);
-//                startActivity(i);
-//                //we close this activity
-//                this.finish();
-//            } else if(signin_server_response==0) {
-//                Toast t = Toast.makeText(this, "Could Not Connect To Server", Toast.LENGTH_SHORT);
-//                t.show();
-//            }
-//        }
-        //if(isValid) {
-        //    this.finish();
-        //}
     }
-
     boolean isEmail(EditText text) {
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
-
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
     }
-
-
 }

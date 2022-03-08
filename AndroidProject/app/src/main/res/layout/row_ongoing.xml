@@ -1,47 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/ongoing_ll1"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ReviewApplicationScreen">
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reviewApplication_backButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/ic_baseline_arrow_back_24" />
-
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginBottom="0dp"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:padding="0dp"
-            android:text="@string/Document_Detail"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,11 +26,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_TrackingID"
+                android:id="@+id/ongoing_TrackingID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="171234"
+                android:text="800002"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -87,11 +54,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_DocName"
+                android:id="@+id/ongoing_DocName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="XYZ"
+                android:text="Clearance Form"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -111,11 +78,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_StartDate"
+                android:id="@+id/ongoing_StartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="12-10-2021"
+                android:text="26-JUN-2021"
                 android:textStyle="bold" />
 
             <TextView
@@ -127,11 +94,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_DueDate"
+                android:id="@+id/ongoing_DueDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="12-10-2021"
+                android:text="26-JUN-2021"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -158,7 +125,7 @@
             <!--                android:text="0"-->
             <!--                android:textStyle="bold" />-->
             <ImageView
-                android:id="@+id/file_attach"
+                android:id="@+id/ongoing_file_attach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -175,7 +142,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_Status"
+                android:id="@+id/ongoing_Status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -194,65 +161,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Employee Name:"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/review_EmployeeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="XYZ"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Department:"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/review_Department"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="CS"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:text="Applicant ID:"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_ApplicantID"
+                android:id="@+id/ongoing_ApplicantID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="171234"
+                android:text="900001"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -272,30 +190,17 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/review_ApplicantName"
+                android:id="@+id/ongoing_ApplicantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="XYZ"
+                android:text="Talat Naeem"
                 android:textStyle="bold" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="1dp"
-            android:paddingTop="0dp"
-            android:text="@string/Document_Tracking"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+        <View
+            android:background="#000"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-
+            android:layout_height="1dp"></View>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

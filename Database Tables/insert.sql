@@ -160,7 +160,7 @@ TO_DATE('1989-06-01','YYYY-MM-DD'),
 'Academic Officer',
 TO_DATE('2015-01-05','YYYY-MM-DD'),
 '200001',
-'@admin1234*'
+'@admin1234'
 );
 INSERT INTO employee_n VALUES
 (
@@ -180,7 +180,7 @@ TO_DATE('1989-06-02','YYYY-MM-DD'),
 'Deputy Manager Academics',
 TO_DATE('2015-03-15','YYYY-MM-DD'),
 '200002',
-'@employee12345*'
+'@employee12345'
 );
 INSERT INTO employee_n VALUES
 (
@@ -200,7 +200,7 @@ TO_DATE('1989-06-03','YYYY-MM-DD'),
 'Manager (Services)',
 TO_DATE('2015-07-27','YYYY-MM-DD'),
 '200003',
-'@1234admin*'
+'@1234admin'
 );
 INSERT INTO employee_n VALUES
 (
@@ -220,7 +220,7 @@ TO_DATE('1989-06-04','YYYY-MM-DD'),
 'Cheif Librarian',
 TO_DATE('2019-01-18','YYYY-MM-DD'),
 '200004',
-'@12345*'
+'@12345'
 );
 INSERT INTO employee_n VALUES
 (
@@ -240,7 +240,7 @@ TO_DATE('1989-06-05','YYYY-MM-DD'),
 'Manager IT',
 TO_DATE('2010-07-22','YYYY-MM-DD'),
 '200005',
-'@1234Employee*'
+'@1234Employee'
 );
 INSERT INTO employee_n VALUES
 (
@@ -260,7 +260,7 @@ TO_DATE('1989-06-06','YYYY-MM-DD'),
 'Disciplinary Manager',
 TO_DATE('2018-03-29','YYYY-MM-DD'),
 '200006',
-'@pakistan1947*'
+'@pakistan1947'
 );
 INSERT INTO employee_n VALUES
 (
@@ -280,7 +280,7 @@ TO_DATE('1989-06-07','YYYY-MM-DD'),
 'Sports Officier',
 TO_DATE('2015-06-18','YYYY-MM-DD'),
 '200007',
-'@pakistan 14*'
+'@pakistan 14'
 );
 INSERT INTO employee_n VALUES
 (
@@ -300,7 +300,7 @@ TO_DATE('1989-06-08','YYYY-MM-DD'),
 'Transpot Manager',
 TO_DATE('2009-07-04','YYYY-MM-DD'),
 '200008',
-'@loginID1234*'
+'@loginID1234'
 );
 INSERT INTO employee_n VALUES
 (
@@ -320,7 +320,7 @@ TO_DATE('1989-06-09','YYYY-MM-DD'),
 'Cafe Owner',
 TO_DATE('2013-05-12','YYYY-MM-DD'),
 '200009',
-'@Gujjar1234*'
+'@Gujjar1234'
 );
 INSERT INTO employee_n VALUES
 (
@@ -340,7 +340,7 @@ TO_DATE('1989-06-10','YYYY-MM-DD'),
 'Boarding Officer',
 TO_DATE('2019-02-16','YYYY-MM-DD'),
 '200010',
-'@zahidadil5896*'
+'@zahidadil5896'
 );
 INSERT INTO employee_n VALUES
 (
@@ -360,7 +360,7 @@ TO_DATE('1989-06-11','YYYY-MM-DD'),
 'Deputy Manager IT',
 TO_DATE('2020-05-25','YYYY-MM-DD'),
 '200011',
-'@Qualityversion7586*'
+'@Qualityversion7586'
 );
 INSERT INTO employee_n VALUES
 (
@@ -380,7 +380,7 @@ TO_DATE('1989-06-12','YYYY-MM-DD'),
 'Committe Head',
 TO_DATE('2016-02-26','YYYY-MM-DD'),
 '200012',
-'@Qualityteam7586*'
+'@Qualityteam7586'
 );
 INSERT INTO employee_n VALUES
 (
@@ -400,7 +400,7 @@ TO_DATE('1989-06-13','YYYY-MM-DD'),
 'Reactor',
 TO_DATE('2005-03-08','YYYY-MM-DD'),
 '200013',
-'@fastnuces1234*'
+'@fastnuces1234'
 );
 INSERT INTO employee_n VALUES
 (
@@ -420,7 +420,7 @@ TO_DATE('1989-06-14','YYYY-MM-DD'),
 'Account Officer',
 TO_DATE('2017-03-27','YYYY-MM-DD'),
 '200014',
-'@nucesfastisb1234*'
+'@nucesfastisb1234'
 );
 INSERT INTO employee_n VALUES
 (
@@ -440,7 +440,7 @@ TO_DATE('1989-06-15','YYYY-MM-DD'),
 'Assistant One Stop',
 TO_DATE('2018-04-30','YYYY-MM-DD'),
 '200015',
-'@1947pakistan*'
+'@1947pakistan'
 );
 INSERT INTO employee_n VALUES
 (
@@ -460,7 +460,7 @@ TO_DATE('1989-06-16','YYYY-MM-DD'),
 'Manager HR IT',
 TO_DATE('2021-01-04','YYYY-MM-DD'),
 '200016',
-'@19pakistan47*'
+'@19pakistan47'
 );
 ------------------------------------Applicant------------------
 INSERT INTO applicant VALUES
@@ -619,7 +619,7 @@ INSERT INTO document VALUES
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 2,
-0,
+2,
 '400001',
 '900001'
 );

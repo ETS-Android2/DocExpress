@@ -32,19 +32,6 @@ public class ReviewApplicationScreen extends AppCompatActivity {
         {
             track_doc_list.add(new tracked_document(data.getString(0),data.getString(1),data.getString(2),data.getString(3)));
         }
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
-//        track_doc_list.add(new tracked_document("1","12-12-2021","400001","Nonne"));
 
         MyRvAdapter adapter=new MyRvAdapter(track_doc_list,this);
         RecyclerView.LayoutManager lm=new LinearLayoutManager(this);
@@ -54,7 +41,7 @@ public class ReviewApplicationScreen extends AppCompatActivity {
         Doc_Name = findViewById(R.id.review_DocName);
         Start_Date = findViewById(R.id.review_StartDate);
         Due_Date = findViewById(R.id.review_DueDate);
-        Attachment = findViewById(R.id.review_Attachment);
+        //Attachment = findViewById(R.id.review_Attachment);
         Status = findViewById(R.id.review_Status);
         Emp_Name = findViewById(R.id.review_EmployeeName);
         Department = findViewById(R.id.review_Department);
@@ -78,8 +65,23 @@ public class ReviewApplicationScreen extends AppCompatActivity {
         Doc_Name.setText(strDoc_Name);
         Start_Date.setText(strStart_Date);
         Due_Date.setText(strDue_Date);
-        Attachment.setText(strAttachment);
-        Status.setText(strStatus);
+        //Attachment.setText(strAttachment);
+        if(strStatus.equalsIgnoreCase("1"))
+        {
+            Status.setText("Completed");
+        }
+        else if(strStatus.equalsIgnoreCase("2"))
+        {
+            Status.setText("On Going");
+        }
+        else if(strStatus.equalsIgnoreCase("3"))
+        {
+            Status.setText("Returned");
+        }
+        else if(strStatus.equalsIgnoreCase("4"))
+        {
+            Status.setText("Rejected");
+        }
         Emp_Name.setText(strEmp_Name);
         Department.setText(strDepartment);
         Applicant_ID.setText(strApplicant_ID);

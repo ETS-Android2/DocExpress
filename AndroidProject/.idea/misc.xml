@@ -11,16 +11,19 @@
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/drawable/outline_create_24.xml" value="0.18958333333333333" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/drawable/outline_menu_24.xml" value="0.14739583333333334" />
+        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/drawable/outline_subtitles_off_20.xml" value="0.22179487179487178" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_closed_application.xml" value="0.1793478260869565" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_new_application_screen.xml" value="0.1793478260869565" />
-        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_ongoing_application_screen.xml" value="0.1793478260869565" />
+        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_ongoing_application_screen.xml" value="0.2" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_progress_screen.xml" value="0.25416666666666665" />
-        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_review_application_screen.xml" value="0.176" />
+        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_review_application_screen.xml" value="0.4" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_sign_in.xml" value="0.1793478260869565" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/activity_track_application.xml" value="0.264" />
+        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/nav_header_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/row.xml" value="0.13125" />
+        <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/layout/row_ongoing.xml" value="0.4" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/menu/navigation_bar_side.xml" value="0.19375" />
         <entry key="..\:/Study/FYP DocExpress/Mid/Android Application/AndroidProject/app/src/main/res/menu/navigation_menu.xml" value="0.25416666666666665" />
       </map>

@@ -14,6 +14,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -37,6 +43,9 @@ import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.checkerframework.common.value.qual.IntVal;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -68,12 +77,150 @@ public class ProgressScreen extends AppCompatActivity {
                 if(s.equalsIgnoreCase("1"))
                 {
                     Toast.makeText(getApplicationContext(),"Completed",Toast.LENGTH_SHORT).show();
-                    //Intent intent=new Intent(ProgressScreen.this,)
+                    RequestQueue requestQueue;
+                    JsonObjectRequest request;
+                    try {
+                        requestQueue = Volley.newRequestQueue(getApplicationContext());
+                        String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_completed.php";
+                        JSONObject jsonBody = new JSONObject();
+                        try {
+                            String user_id_from_table="0";
+                            MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                            Cursor data= helper.getuserID();
+                            while (data.moveToNext())
+                            {
+                                user_id_from_table=data.getString(0);
+                            }
+                            data.close();
+                            helper.close();
+                            jsonBody.put("emp_id", user_id_from_table);
+                            request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    JSONArray jsonArray;
+                                    try {
+                                        jsonArray = response.getJSONArray("doc");
+                                        JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                        if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                        {
+                                            Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                            helper.dropdocOngoingTable();
+                                            helper.createDocOngoingTable();
+                                            for(int i=1;i<jsonArray.length();i++)
+                                            {
+                                                JSONObject docdetail=jsonArray.getJSONObject(i);
+                                                String doc_id_ser=docdetail.getString("doc_id");
+                                                String doc_name_ser=docdetail.getString("doc_name");
+                                                String doc_start_date_ser=docdetail.getString("start_date");
+                                                String doc_end_date_ser=docdetail.getString("end_date");
+                                                String doc_app_id_ser=docdetail.getString("app_id");
+                                                String doc_app_name_ser=docdetail.getString("app_name");
+                                                helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                            }
+                                            helper.close();
+                                            startActivity(new Intent(getApplicationContext(), closedApplication.class));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                        t2.show();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            requestQueue.add(request);
+                        } catch (JSONException ee) {
+                            ee.printStackTrace();
+                            Toast.makeText(getApplicationContext(),ee.toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (Exception ee)
+                    {
+                        ee.printStackTrace();
+                        Toast.makeText(getApplicationContext(),ee.toString(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else if (s.equalsIgnoreCase("2")) {
-                    Toast.makeText(getApplicationContext(),"On Going",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(ProgressScreen.this,ongoing_Application_Screen.class);
-                    startActivity(intent);
+                    RequestQueue requestQueue;
+                    JsonObjectRequest request;
+                    try {
+                        requestQueue = Volley.newRequestQueue(getApplicationContext());
+                        String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_ongoing.php";
+                        JSONObject jsonBody = new JSONObject();
+                        try {
+                            String user_id_from_table="0";
+                            MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                            Cursor data= helper.getuserID();
+                            while (data.moveToNext())
+                            {
+                                user_id_from_table=data.getString(0);
+                            }
+                            data.close();
+                            helper.close();
+                            jsonBody.put("emp_id", user_id_from_table);
+                            request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    JSONArray jsonArray;
+                                    try {
+                                        jsonArray = response.getJSONArray("doc");
+                                        JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                        if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                        {
+                                            Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                            helper.dropdocOngoingTable();
+                                            helper.createDocOngoingTable();
+                                            for(int i=1;i<jsonArray.length();i++)
+                                            {
+                                                JSONObject docdetail=jsonArray.getJSONObject(i);
+                                                String doc_id_ser=docdetail.getString("doc_id");
+                                                String doc_name_ser=docdetail.getString("doc_name");
+                                                String doc_start_date_ser=docdetail.getString("start_date");
+                                                String doc_end_date_ser=docdetail.getString("end_date");
+                                                String doc_app_id_ser=docdetail.getString("app_id");
+                                                String doc_app_name_ser=docdetail.getString("app_name");
+                                                helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                            }
+                                            helper.close();
+                                            startActivity(new Intent(getApplicationContext(), ongoing_Application_Screen.class));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                        t2.show();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            requestQueue.add(request);
+                        } catch (JSONException ee) {
+                            ee.printStackTrace();
+                            Toast.makeText(getApplicationContext(),ee.toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (Exception ee)
+                    {
+                        ee.printStackTrace();
+                        Toast.makeText(getApplicationContext(),ee.toString(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else if (s.equalsIgnoreCase("3"))
                 {

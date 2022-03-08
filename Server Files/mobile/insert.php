@@ -12,7 +12,7 @@ if(isset($_POST["doc_name"],$_POST["doc_start_date"],$_POST["doc_due_date"],$_PO
 		$doc_start_date=$_POST["doc_start_date"];
 		$doc_due_date=$_POST["doc_due_date"];
 		$doc_attachment=$_POST["doc_attachment"];
-		$doc_status=0;
+		$doc_status=2;
 		$emp_id=$_POST["emp_id"];
 		$app_id=$_POST["app_id"];
 		$app_q="SELECT app_id FROM applicant WHERE app_id = '$app_id'";
@@ -31,7 +31,7 @@ if(isset($_POST["doc_name"],$_POST["doc_start_date"],$_POST["doc_due_date"],$_PO
 			if($row)
 			{
 				$docid=$row['COUNT(*)']+800001;
-				$doc_insert_q="INSERT INTO document VALUES($docid,'$doc_name',to_date('$doc_start_date','YYYY-MM-DD'),to_date('$doc_due_date','YYYY-MM-DD'),$doc_attachment,0,$emp_id,$app_id)";
+				$doc_insert_q="INSERT INTO document VALUES($docid,'$doc_name',to_date('$doc_start_date','YYYY-MM-DD'),to_date('$doc_due_date','YYYY-MM-DD'),$doc_attachment,2,$emp_id,$app_id)";
 				$doc_insert_q_id = oci_parse($con, $doc_insert_q); 		
 				$doc_insert_q_r = oci_execute($doc_insert_q_id);
 				//$row = oci_fetch_array($doc_insert_q_id, OCI_BOTH+OCI_RETURN_NULLS);

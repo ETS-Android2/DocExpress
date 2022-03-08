@@ -37,7 +37,6 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
         holder.rec_date.setText(track_doc_list_rv.get(position).getDoc_rec_date());
         holder.emp_id.setText(track_doc_list_rv.get(position).getDoc_emp_id());
         holder.comments.setText(track_doc_list_rv.get(position).getDoc_comments());
-
     }
 
     @Override

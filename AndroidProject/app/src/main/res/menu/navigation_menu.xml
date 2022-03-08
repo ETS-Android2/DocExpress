@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/nav_account"
-        android:title="My Account"/>
+        android:title="My Account"
+        android:icon="@drawable/outline_account_circle_24"/>
     <item android:id="@+id/nav_settings"
-        android:title="Settings"/>
+        android:title="Settings"
+        android:icon="@drawable/outline_settings_24"/>
     <item android:id="@+id/nav_logout"
-        android:title="Log Out"/>
-<!--        android:onClick="nav_logout_click"-->
-<!--        />-->
+        android:title="Log Out"
+        android:icon="@drawable/outline_logout_24"/>
+
 
 </menu>

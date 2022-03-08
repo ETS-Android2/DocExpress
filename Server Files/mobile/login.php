@@ -6,14 +6,7 @@ include "conn.php";
 include "employee.php";
 $response=array();
 
-
-//header("Content-Type: application/json");
-//header("Access-Control-Allow-Origin: *");
-
-//$data = json_decode(file_get_contents("php://input"), true);
-
 if(isset($_POST["email"],$_POST["pass"]))
-//if($data)
 {
 	$email=$_POST["email"];
 	$pass=$_POST["pass"]; 
@@ -25,7 +18,7 @@ if(isset($_POST["email"],$_POST["pass"]))
 	if($row)
 	{
 		$emp_id=$row['EMP_ID'];
-		$emp_q="SELECT * FROM employee_n WHERE emp_id = $emp_id AND password='$pass'";
+		$emp_q="SELECT emp_id,emp_f_name ||' '|| emp_l_name as emp_name,emp_rank FROM employee_n WHERE emp_id = $emp_id AND password='$pass'";
 		$emp_q_id = oci_parse($con, $emp_q); 		
 		$emp_q_r = oci_execute($emp_q_id);
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
@@ -35,7 +28,9 @@ if(isset($_POST["email"],$_POST["pass"]))
 			$emp_id=$row['EMP_ID'];
 			$id=$emp_id;
 			$emp_pass=$row['PASSWORD'];
-			$response['id']=$row['EMP_ID'];;
+			$response['id']=$row['EMP_ID'];
+			$response['emp_name']=$row['EMP_NAME'];
+			$response['emp_job']=$row['EMP_RANK'];;
 			$response['reqmsg']="Successfully Logged In";
 			$response['reqcode']="1";
 		}
@@ -54,7 +49,6 @@ if(isset($_POST["email"],$_POST["pass"]))
 	}
 }
 $x=json_encode($response);
-//header('Content-Type: application/json; charset=utf-8');
 echo $x;
 oci_close($con);
 if($con)

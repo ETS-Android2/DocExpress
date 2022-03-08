@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="Employee ID: "
+        android:text="Employee Name: "
         android:textColor="@color/black"
         ></TextView>
     <TextView
