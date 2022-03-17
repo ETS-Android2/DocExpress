@@ -178,6 +178,7 @@ public class newApplicationScreen extends AppCompatActivity {
                 DatePickerDialog datePickerDialog=new DatePickerDialog(newApplicationScreen.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month=month+1;
                         duedate.setText(dayOfMonth+"-"+month+"-"+year);
                     }
                 },mYear,mMonth,mDate);
@@ -228,8 +229,8 @@ public class newApplicationScreen extends AppCompatActivity {
                         applicant_id = Integer.parseInt(applicantid.getText().toString());
                         //startActivity();
                         //Toast t = Toast.makeText(getApplicationContext(), "arshad", Toast.LENGTH_SHORT);
-                        Toast t = Toast.makeText(getApplicationContext(), duedate.getText().toString(), Toast.LENGTH_SHORT);
-                        t.show();
+                        //Toast t = Toast.makeText(getApplicationContext(), duedate.getText().toString(), Toast.LENGTH_SHORT);
+                        //t.show();
                         RequestQueue requestQueue;
                         JsonObjectRequest request;
                         try {
@@ -246,11 +247,11 @@ public class newApplicationScreen extends AppCompatActivity {
                                 }
                                 data.close();
                                 helper.close();
+                                jsonBody.put("doc_name",doc_name_selected);
                                 jsonBody.put("emp_id", user_id_from_table);
                                 jsonBody.put("app_id",applicantid.getText().toString());
                                 jsonBody.put("doc_due_date",duedate.getText().toString());
                                 jsonBody.put("doc_attachment","1");
-                                jsonBody.put("doc_start_date","5-12-2022");
                                 jsonBody.put("doc_status",document_status);
                                 request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
                                     @Override
@@ -258,29 +259,38 @@ public class newApplicationScreen extends AppCompatActivity {
                                         JSONArray jsonArray;
                                         try {
                                             jsonArray = response.getJSONArray("doc");
+                                            //Toast.makeText(getApplicationContext(),jsonArray.toString(),Toast.LENGTH_SHORT).show();
                                             JSONObject received_data_head=jsonArray.getJSONObject(0);
                                             if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
                                             {
-                                                Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(),"Applicant ID NOT Found",Toast.LENGTH_SHORT).show();
                                             }
-                                            else
+                                            else if(received_data_head.getString("reqcode").equalsIgnoreCase("2"))
                                             {
-                                                MyDbHelper helper=new MyDbHelper(getApplicationContext());
-                                                helper.dropdocOngoingTable();
-                                                helper.createDocOngoingTable();
-                                                for(int i=1;i<jsonArray.length();i++)
-                                                {
-                                                    JSONObject docdetail=jsonArray.getJSONObject(i);
-                                                    String doc_id_ser=docdetail.getString("doc_id");
-                                                    String doc_name_ser=docdetail.getString("doc_name");
-                                                    String doc_start_date_ser=docdetail.getString("start_date");
-                                                    String doc_end_date_ser=docdetail.getString("end_date");
-                                                    String doc_app_id_ser=docdetail.getString("app_id");
-                                                    String doc_app_name_ser=docdetail.getString("app_name");
-                                                    helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
-                                                }
-                                                helper.close();
-                                                startActivity(new Intent(Home.this, ongoing_Application_Screen.class));
+                                                //MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                                //helper.dropdocOngoingTable();
+                                                //helper.createDocOngoingTable();
+                                                JSONObject docdetail=jsonArray.getJSONObject(1);
+                                                String doc_id_ser=docdetail.getString("doc_id");
+                                                String doc_name_ser=docdetail.getString("doc_name");
+                                                String doc_start_date_ser=docdetail.getString("doc_start_date");
+                                                String doc_end_date_ser=docdetail.getString("doc_due_date");
+                                                String doc_attach_ser=docdetail.getString("doc_attachment");
+                                                String doc_staus_ser = docdetail.getString("doc_status");
+                                                String doc_emp_id_ser = docdetail.getString("emp_id");
+                                                String doc_app_id_ser = docdetail.getString("app_id");
+                                                String doc_emp_name_ser = docdetail.getString("emp_name");
+                                                String doc_dept_name_ser = docdetail.getString("dept_name");
+                                                String doc_app_name_ser = docdetail.getString("app_name");
+
+                                                //helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                                //helper.close();
+                                                //startActivity(new Intent(newApplicationScreen.this, ongoing_Application_Screen.class));
+                                                //Toast.makeText(getApplicationContext(),docdetail.toString(),Toast.LENGTH_SHORT).show();
+                                            }
+                                            else if(received_data_head.getString("reqcode").equalsIgnoreCase("3"))
+                                            {
+                                                Toast.makeText(getApplicationContext(),"Record Insertion Failed",Toast.LENGTH_SHORT).show();
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();

@@ -52,7 +52,7 @@ public class MyRvAdapterOngoing extends RecyclerView.Adapter<MyRvAdapterOngoing.
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(c,ongoing_doc.get(position).getTracking_id(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(c,ongoing_doc.get(position).getTracking_id(),Toast.LENGTH_SHORT).show();
                 //Intent intent = new Intent(v.getContext(), TrackApplication.class);
                 //v.getContext().startActivity(intent);
 

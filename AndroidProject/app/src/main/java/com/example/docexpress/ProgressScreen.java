@@ -76,7 +76,7 @@ public class ProgressScreen extends AppCompatActivity {
                 String s=e.getData().toString();
                 if(s.equalsIgnoreCase("1"))
                 {
-                    Toast.makeText(getApplicationContext(),"Completed",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Completed",Toast.LENGTH_SHORT).show();
                     RequestQueue requestQueue;
                     JsonObjectRequest request;
                     try {
@@ -224,17 +224,15 @@ public class ProgressScreen extends AppCompatActivity {
                 }
                 else if (s.equalsIgnoreCase("3"))
                 {
-                    Toast.makeText(getApplicationContext(),"Returned",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Returned",Toast.LENGTH_SHORT).show();
                 }
                 else if(s.equalsIgnoreCase("4"))
                 {
-                    Toast.makeText(getApplicationContext(),"Rejected",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Rejected",Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onNothingSelected() {
-
             }
         });
         String total="0";
