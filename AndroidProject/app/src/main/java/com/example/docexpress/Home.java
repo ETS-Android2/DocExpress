@@ -67,16 +67,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         data.close();
         helper.close();
-        ActionBarDrawerToggle actionBarDrawerToggle= new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle[] actionBarDrawerToggle = {new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
                 toolbar,
                 R.string.openNavDrawer,
                 R.string.closeNavDrawer
 
-        );
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+        )};
+        drawerLayout.addDrawerListener(actionBarDrawerToggle[0]);
+        actionBarDrawerToggle[0].syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         Home_NewApplication = findViewById(R.id.start_doc_button);
@@ -173,7 +173,68 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_NewApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Home.this, newApplicationScreen.class));
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                final String[] doc_size = {"0"};
+                try {
+                    requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_names.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        jsonBody.put("id", "1");
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Could Not Fetch Douments From Server",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        doc_size[0] =received_data_head.getString("doc_numbers");
+                                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                        helper.dropdocnamesTable();
+                                        helper.createDocNamesTable();
+                                        for(int i=1;i<jsonArray.length();i++)
+                                        {
+                                            JSONObject docdetail=jsonArray.getJSONObject(i);
+                                            String doc_name_ser=docdetail.getString("doc_name");
+                                            helper.insertDocNamesDetails(doc_name_ser);
+                                        }
+                                        helper.close();
+                                        Intent intent=new Intent(Home.this, newApplicationScreen.class);
+                                        intent.putExtra("doc_numbers",doc_size[0]);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
+                //startActivity(new Intent(Home.this, newApplicationScreen.class));
             }
         });
 

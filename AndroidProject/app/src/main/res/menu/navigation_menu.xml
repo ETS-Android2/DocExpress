@@ -9,6 +9,4 @@
     <item android:id="@+id/nav_logout"
         android:title="Log Out"
         android:icon="@drawable/outline_logout_24"/>
-
-
 </menu>

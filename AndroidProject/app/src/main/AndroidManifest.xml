@@ -24,7 +24,8 @@
             android:exported="false" />
         <activity
             android:name=".newApplicationScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ProgressScreen"
             android:exported="false" />

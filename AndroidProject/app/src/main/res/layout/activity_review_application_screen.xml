@@ -150,13 +150,6 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/review_Attachment"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_margin="5dp"-->
-            <!--                android:text="0"-->
-            <!--                android:textStyle="bold" />-->
             <ImageView
                 android:id="@+id/file_attach"
                 android:layout_width="wrap_content"
@@ -297,5 +290,4 @@
             android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-
 </RelativeLayout>

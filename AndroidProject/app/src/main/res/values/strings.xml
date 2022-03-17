@@ -18,5 +18,5 @@
     <string name="closeNavDrawer">
     Navigation Drawer Close
     </string>
-    <string name="server_ip">192.168.1.10</string>
+    <string name="server_ip">ab49-39-40-151-48.ngrok.io</string>
 </resources>

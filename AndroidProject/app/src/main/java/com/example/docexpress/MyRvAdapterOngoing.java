@@ -124,7 +124,6 @@ public class MyRvAdapterOngoing extends RecyclerView.Adapter<MyRvAdapterOngoing.
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return ongoing_doc.size();

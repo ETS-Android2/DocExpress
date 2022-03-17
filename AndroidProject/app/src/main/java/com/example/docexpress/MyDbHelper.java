@@ -14,6 +14,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     String create_doc_summary_table="CREATE TABLE doc_summary(table_id TEXT PRIMARY KEY,total TEXT,completed TEXT, ongoing TEXT,returned TEXT,rejected TEXT)";
     String delete_user_table="DROP TABLE IF EXISTS users";
     String create_doc_track_table="CREATE TABLE doctrack(step TEXT PRIMARY KEY, rec_date TEXT, emp_id TEXT,comments TEXT)";
+    String create_doc_names_table="CREATE TABLE docnames(name TEXT PRIMARY KEY)";
     public MyDbHelper(@Nullable Context context) {
         super(context, "docexpress.db", null, 1);
     }
@@ -52,6 +53,13 @@ public class MyDbHelper extends SQLiteOpenHelper {
          MyDB.close();
     }
 
+    public void createDocNamesTable()
+    {
+        SQLiteDatabase MyDB=this.getWritableDatabase();
+        MyDB.execSQL(create_doc_names_table);
+        MyDB.close();
+    }
+
     public void createDocOngoingTable()
     {
         SQLiteDatabase MyDB=this.getWritableDatabase();
@@ -70,6 +78,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase MyDB=this.getWritableDatabase() ;
         MyDB.execSQL("DROP TABLE IF EXISTS doctrack");
+        //MyDB.close();
+        return true;
+    }
+
+    public Boolean dropdocnamesTable()
+    {
+        SQLiteDatabase MyDB=this.getWritableDatabase() ;
+        MyDB.execSQL("DROP TABLE IF EXISTS docnames");
         //MyDB.close();
         return true;
     }
@@ -99,6 +115,18 @@ public class MyDbHelper extends SQLiteOpenHelper {
         contentValues.put("emp_id", emp_id);
         contentValues.put("comments", comments);
         long result = MyDB.insert("doctrack",null,contentValues);
+        MyDB.close();
+        if(result==-1) return false;
+        else
+            return true;
+    }
+
+    public Boolean insertDocNamesDetails(String name)
+    {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        long result = MyDB.insert("docnames",null,contentValues);
         MyDB.close();
         if(result==-1) return false;
         else
@@ -143,6 +171,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase MyDB=this.getReadableDatabase() ;
         Cursor cursor=MyDB.rawQuery("SELECT * FROM doctrack",null);
+        //MyDB.close();
+        return cursor;
+    }
+
+    public Cursor getdocnames()
+    {
+        SQLiteDatabase MyDB=this.getReadableDatabase() ;
+        Cursor cursor=MyDB.rawQuery("SELECT * FROM docnames",null);
         //MyDB.close();
         return cursor;
     }

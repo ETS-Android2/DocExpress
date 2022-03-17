@@ -40,9 +40,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ongoing_rv">
-
     </androidx.recyclerview.widget.RecyclerView>
-
-
 </RelativeLayout>
-
