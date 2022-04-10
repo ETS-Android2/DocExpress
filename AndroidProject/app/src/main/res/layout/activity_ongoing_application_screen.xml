@@ -34,11 +34,11 @@
         android:textSize="20sp"
         android:textStyle="bold" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/ongoing_ll"
+        android:id="@+id/ongoing_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ongoing_rv">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/ongoing_ll"
+        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>

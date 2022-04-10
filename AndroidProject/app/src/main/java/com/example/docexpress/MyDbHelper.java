@@ -15,6 +15,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     String delete_user_table="DROP TABLE IF EXISTS users";
     String create_doc_track_table="CREATE TABLE doctrack(step TEXT PRIMARY KEY, rec_date TEXT, emp_id TEXT,comments TEXT)";
     String create_doc_names_table="CREATE TABLE docnames(name TEXT PRIMARY KEY)";
+    String create_doc_inserted_table="CREATE TABLE docinserted(doc_id TEXT PRIMARY KEY, doc_name TEXT, doc_start_date TEXT,doc_due_date TEXT,doc_attachment TEXT, doc_status TEXT, emp_id TEXT, app_id TEXT, emp_name TEXT, dept_name TEXT, app_name TEXT)";
     public MyDbHelper(@Nullable Context context) {
         super(context, "docexpress.db", null, 1);
     }
@@ -60,6 +61,13 @@ public class MyDbHelper extends SQLiteOpenHelper {
         MyDB.close();
     }
 
+    public void createDocInsertedTable()
+    {
+        SQLiteDatabase MyDB=this.getWritableDatabase();
+        MyDB.execSQL(create_doc_inserted_table);
+        MyDB.close();
+    }
+
     public void createDocOngoingTable()
     {
         SQLiteDatabase MyDB=this.getWritableDatabase();
@@ -86,6 +94,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase MyDB=this.getWritableDatabase() ;
         MyDB.execSQL("DROP TABLE IF EXISTS docnames");
+        //MyDB.close();
+        return true;
+    }
+
+    public Boolean dropdocInsertedTable()
+    {
+        SQLiteDatabase MyDB=this.getWritableDatabase() ;
+        MyDB.execSQL("DROP TABLE IF EXISTS docinserted");
         //MyDB.close();
         return true;
     }
@@ -127,6 +143,28 @@ public class MyDbHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         long result = MyDB.insert("docnames",null,contentValues);
+        MyDB.close();
+        if(result==-1) return false;
+        else
+            return true;
+    }
+
+    public Boolean insertDocInsertedDetails(String doc_id,String doc_name, String doc_start_date,String doc_due_date,String doc_attachment, String doc_status, String emp_id, String app_id, String emp_name, String dept_name, String app_name)
+    {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("doc_id", doc_id);
+        contentValues.put("doc_name", doc_name);
+        contentValues.put("doc_start_date", doc_start_date);
+        contentValues.put("doc_due_date", doc_due_date);
+        contentValues.put("doc_attachment", doc_attachment);
+        contentValues.put("doc_status", doc_status);
+        contentValues.put("emp_id", emp_id);
+        contentValues.put("app_id", app_id);
+        contentValues.put("emp_name", emp_name);
+        contentValues.put("dept_name", dept_name);
+        contentValues.put("app_name", app_name);
+        long result = MyDB.insert("docinserted",null,contentValues);
         MyDB.close();
         if(result==-1) return false;
         else
@@ -179,6 +217,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase MyDB=this.getReadableDatabase() ;
         Cursor cursor=MyDB.rawQuery("SELECT * FROM docnames",null);
+        //MyDB.close();
+        return cursor;
+    }
+
+    public Cursor getdocInserted()
+    {
+        SQLiteDatabase MyDB=this.getReadableDatabase() ;
+        Cursor cursor=MyDB.rawQuery("SELECT * FROM docinserted",null);
         //MyDB.close();
         return cursor;
     }

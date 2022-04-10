@@ -3,6 +3,9 @@
     <string name="Document_Tracking">
         <u>Document Tracking</u>
     </string>
+    <string name="inserted_Document_Tracking">
+        <u>Further Options</u>
+    </string>
     <string name="Ongoing_Document_title">
         <u>My Ongoing Documents</u>
     </string>
@@ -12,11 +15,14 @@
     <string name="Document_Detail">
         <u>Document Detail</u>
     </string>
+    <string name="inserted_Document_Detail">
+        <u>Submitted Document</u>
+    </string>
     <string name="openNavDrawer">
     Navigation Drawer Open
     </string>
     <string name="closeNavDrawer">
     Navigation Drawer Close
     </string>
-    <string name="server_ip">ab49-39-40-151-48.ngrok.io</string>
+    <string name="server_ip">2293-39-40-151-48.ngrok.io</string>
 </resources>

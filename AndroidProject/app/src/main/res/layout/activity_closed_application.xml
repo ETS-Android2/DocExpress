@@ -18,7 +18,8 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="0dp"
         android:orientation="vertical"
-        android:id="@+id/closed_ll">
+        android:id="@+id/closed_ll"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,13 +32,15 @@
             android:text="@string/closed_Document_title"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"
         android:layout_below="@+id/closed_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ongoing_rv">
+        android:id="@+id/ongoing_rv"
+        >
     </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>

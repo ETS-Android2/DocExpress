@@ -51,7 +51,6 @@ import java.util.Calendar;
 
 public class newApplicationScreen extends AppCompatActivity {
 
-    String emp_id="";
     String document_status="1";
     Boolean isFileSelected=false;
     private RadioGroup radioGroup;
@@ -63,15 +62,9 @@ public class newApplicationScreen extends AppCompatActivity {
     EditText applicantid;
     EditText duedate;
     int applicant_id;
-    String due_date;
     boolean isValid2=true;
     AppCompatButton newApplication_backButton;
     private Spinner spinner;
-    //private static final String[] paths = {"Select Application Name", "Course Replacement Form", "Clearance Form",
-    //        "Course Withdraw Form", "Grade Change Form", "Semester Freeze Form", "Event Request Form"};
-//    private String[] paths= new String[6];
-    private Spinner spinner2;
-    private static final String[] paths2 = {"Select Application Status", "Completed", "On Going"};
     String doc_name_selected="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,36 +100,11 @@ public class newApplicationScreen extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(newApplicationScreen.this,
                 android.R.layout.simple_spinner_item, paths);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(newApplicationScreen.this,
-                android.R.layout.simple_spinner_item, paths2);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                switch (position) {
-                    case 0:
-                        // Whatever you want to happen when the first item gets selected
-                        break;
-                    case 1:
-                        // Whatever you want to happen when the second item gets selected
-                        break;
-                    case 2:
-                        // Whatever you want to happen when the thrid item gets selected
-                        break;
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
         //String text = spinner.getSelectedItem().toString();
         //Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent,
                                        View view, int pos, long id) {
@@ -227,7 +195,6 @@ public class newApplicationScreen extends AppCompatActivity {
                     if(isFileSelected)
                     {
                         applicant_id = Integer.parseInt(applicantid.getText().toString());
-                        //startActivity();
                         //Toast t = Toast.makeText(getApplicationContext(), "arshad", Toast.LENGTH_SHORT);
                         //Toast t = Toast.makeText(getApplicationContext(), duedate.getText().toString(), Toast.LENGTH_SHORT);
                         //t.show();
@@ -267,9 +234,9 @@ public class newApplicationScreen extends AppCompatActivity {
                                             }
                                             else if(received_data_head.getString("reqcode").equalsIgnoreCase("2"))
                                             {
-                                                //MyDbHelper helper=new MyDbHelper(getApplicationContext());
-                                                //helper.dropdocOngoingTable();
-                                                //helper.createDocOngoingTable();
+                                                MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                                helper.dropdocInsertedTable();
+                                                helper.createDocInsertedTable();
                                                 JSONObject docdetail=jsonArray.getJSONObject(1);
                                                 String doc_id_ser=docdetail.getString("doc_id");
                                                 String doc_name_ser=docdetail.getString("doc_name");
@@ -277,16 +244,31 @@ public class newApplicationScreen extends AppCompatActivity {
                                                 String doc_end_date_ser=docdetail.getString("doc_due_date");
                                                 String doc_attach_ser=docdetail.getString("doc_attachment");
                                                 String doc_staus_ser = docdetail.getString("doc_status");
+                                                if(docdetail.getString("doc_status").equalsIgnoreCase("1"))
+                                                {
+                                                    doc_staus_ser="Completed";
+                                                }
+                                                else if(docdetail.getString("doc_status").equalsIgnoreCase("2"))
+                                                {
+                                                    doc_staus_ser="On Going";
+                                                }
                                                 String doc_emp_id_ser = docdetail.getString("emp_id");
                                                 String doc_app_id_ser = docdetail.getString("app_id");
                                                 String doc_emp_name_ser = docdetail.getString("emp_name");
                                                 String doc_dept_name_ser = docdetail.getString("dept_name");
                                                 String doc_app_name_ser = docdetail.getString("app_name");
 
-                                                //helper.insertDocOngoingTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
-                                                //helper.close();
-                                                //startActivity(new Intent(newApplicationScreen.this, ongoing_Application_Screen.class));
-                                                //Toast.makeText(getApplicationContext(),docdetail.toString(),Toast.LENGTH_SHORT).show();
+                                                helper.insertDocInsertedDetails(doc_id_ser,doc_name_ser,doc_start_date_ser,
+                                                        doc_end_date_ser,doc_attach_ser,doc_staus_ser,doc_emp_id_ser,doc_app_id_ser,doc_emp_name_ser,doc_dept_name_ser,doc_app_name_ser);
+                                                helper.close();
+                                                if(document_status.equalsIgnoreCase("1"))
+                                                {
+                                                    startActivity(new Intent(newApplicationScreen.this, InsertedDocumentComplete.class));
+                                                }
+                                                else {
+                                                    startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
+                                                    //Toast.makeText(getApplicationContext(),docdetail.toString(),Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                             else if(received_data_head.getString("reqcode").equalsIgnoreCase("3"))
                                             {
@@ -359,7 +341,6 @@ public class newApplicationScreen extends AppCompatActivity {
             File myFile = new File(fileName2);
             String pathStr = myFile.getAbsolutePath();
             String displayName = null;
-
             if (fileName2.startsWith("content://")) {
                 Cursor cursor = null;
                 try {
