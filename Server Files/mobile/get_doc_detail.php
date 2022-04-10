@@ -62,7 +62,7 @@ if($data)
 			//$response2[0]=$response;
 			$response2['doc'][0]=$response;
 			
-			$doc_q="select * from document_status WHERE doc_id = $docid";
+			$doc_q="select * from document_status WHERE doc_id = $docid ORDER BY DOCST_SERIAL_NO";
 			$doc_q_id = oci_parse($con, $doc_q); 		
 			$doc_q_r = oci_execute($doc_q_id);
 			//$row = oci_fetch_array($doc_q_id, OCI_BOTH+OCI_RETURN_NULLS); 
