@@ -80,7 +80,7 @@ CREATE TABLE document_route
 (
 doc_step_no NUMBER(3) NOT NULL,
 doc_name VARCHAR2(50) NOT NULL,
-dept_id VARCHAR2(6) NOT NULL
+emp_id VARCHAR2(6) NOT NULL
 );
 
 ---------------------------------------------PRIMARY KEYS----
@@ -121,10 +121,10 @@ ADD (CONSTRAINTS document_type_id_pk
 	
 ALTER TABLE document_route
 ADD (CONSTRAINTS document_route_id_pk
-	PRIMARY KEY(doc_step_no,doc_name,dept_id)
+	PRIMARY KEY(doc_step_no,doc_name,emp_id)
 	)
 ADD (CONSTRAINTS document_route_id_unique
-	UNIQUE (doc_name,dept_id)
+	UNIQUE (doc_name,emp_id)
 	);
 
 ---------------------------------------------FOREIGN KEYS----	
@@ -166,9 +166,9 @@ ADD (CONSTRAINTS docst_emp_id_fk
 	);
 	
 ALTER TABLE document_route
-ADD (CONSTRAINTS docrt_dept_id_fk
-	FOREIGN KEY(dept_id)
-	REFERENCES department (dept_id)
+ADD (CONSTRAINTS docrt_emp_id_fk
+	FOREIGN KEY(emp_id)
+	REFERENCES employee_n (emp_id)
 	)
 ADD (CONSTRAINTS docrt_name_fk
 	FOREIGN KEY (doc_name)

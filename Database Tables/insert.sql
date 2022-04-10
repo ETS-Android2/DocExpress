@@ -141,6 +141,24 @@ INSERT INTO department VALUES
 'HR',
 '10001i'
 );
+INSERT INTO department VALUES
+(
+'200017',
+'School of Computing',
+'10001i'
+);
+INSERT INTO department VALUES
+(
+'200018',
+'Islamabad Campus',
+'10001i'
+);
+INSERT INTO department VALUES
+(
+'200019',
+'Flex',
+'10001i'
+);
 ----------------------------------------employee_n-----------------------
 INSERT INTO employee_n VALUES
 (
@@ -462,6 +480,66 @@ TO_DATE('2021-01-04','YYYY-MM-DD'),
 '200016',
 '@19pakistan47'
 );
+INSERT INTO employee_n VALUES
+(
+'400017',
+'Kashif',
+'Munir',
+'23',
+'11',
+'G10/1',
+'Islamabad',
+'ICT',
+44000,
+TO_DATE('1997-05-3','YYYY-MM-DD'),
+'3630253718323',
+3037388004,
+'kashif.munir@nu.edu.pk',
+'Head Of Department',
+TO_DATE('2020-03-03','YYYY-MM-DD'),
+'200017',
+'@19pakistan47'
+);
+INSERT INTO employee_n VALUES
+(
+'400018',
+'Zohaib',
+'Ahmad',
+'17',
+'1',
+'F11/4',
+'Islamabad',
+'ICT',
+44000,
+TO_DATE('1970-12-3','YYYY-MM-DD'),
+'3630256294315',
+3008795610,
+'zohaib.ahmad@nu.edu.pk',
+'Director',
+TO_DATE('2018-01-12','YYYY-MM-DD'),
+'200018',
+'@19pakistan47'
+);
+INSERT INTO employee_n VALUES
+(
+'400019',
+'Akhtar',
+'Jamil',
+'233',
+'19',
+'Ghouri Town',
+'Islamabad',
+'ICT',
+44000,
+TO_DATE('1980-06-01','YYYY-MM-DD'),
+'3630254771340',
+3007858932,
+'akhtar.jamil@nu.edu.pk',
+'Flex Staff',
+TO_DATE('2020-03-23','YYYY-MM-DD'),
+'200019',
+'@19pakistan47'
+);
 ------------------------------------Applicant------------------
 INSERT INTO applicant VALUES
 (
@@ -597,6 +675,12 @@ INSERT INTO document_type VALUES
 INSERT INTO document_type VALUES
 (
 'Event Request Form',
+0,
+'NA'
+);
+INSERT INTO document_type VALUES
+(
+'Fee Installments Form',
 0,
 'NA'
 );
@@ -801,97 +885,212 @@ INSERT INTO document_route VALUES
 (
 1,
 'Clearance Form',
-'200001'
+'400001'
 );
 INSERT INTO document_route VALUES
 (
 2,
 'Clearance Form',
-'200002'
+'400002'
 );
 INSERT INTO document_route VALUES
 (
 3,
 'Clearance Form',
-'200003'
+'400003'
 );
 INSERT INTO document_route VALUES
 (
 4,
 'Clearance Form',
-'200004'
+'400004'
 );
 INSERT INTO document_route VALUES
 (
 5,
 'Clearance Form',
-'200005'
+'400005'
 );
 INSERT INTO document_route VALUES
 (
 6,
 'Clearance Form',
-'200006'
+'400006'
 );
 INSERT INTO document_route VALUES
 (
 7,
 'Clearance Form',
-'200007'
+'400007'
 );
 INSERT INTO document_route VALUES
 (
 8,
 'Clearance Form',
-'200008'
+'400008'
 );
 INSERT INTO document_route VALUES
 (
 9,
 'Clearance Form',
-'200009'
+'400009'
 );
 INSERT INTO document_route VALUES
 (
 10,
 'Clearance Form',
-'200010'
+'400010'
 );
 INSERT INTO document_route VALUES
 (
 11,
 'Clearance Form',
-'200011'
+'400011'
 );
 INSERT INTO document_route VALUES
 (
 12,
 'Clearance Form',
-'200012'
+'400012'
 );
 INSERT INTO document_route VALUES
 (
 13,
 'Clearance Form',
-'200013'
+'400013'
 );
 INSERT INTO document_route VALUES
 (
 14,
 'Clearance Form',
-'200014'
+'400014'
 );
 INSERT INTO document_route VALUES
 (
 15,
 'Clearance Form',
-'200015'
+'400015'
 );
 INSERT INTO document_route VALUES
 (
 16,
 'Clearance Form',
-'200016'
+'400016'
+);
+
+INSERT INTO document_route VALUES
+(
+1,
+'Course Replacement Form',
+'400017'
+);
+INSERT INTO document_route VALUES
+(
+2,
+'Course Replacement Form',
+'400001'
+);
+INSERT INTO document_route VALUES
+(
+3,
+'Course Replacement Form',
+'400018'
+);
+INSERT INTO document_route VALUES
+(
+4,
+'Course Replacement Form',
+'400013'
+);
+INSERT INTO document_route VALUES
+(
+5,
+'Course Replacement Form',
+'400019'
+);
+INSERT INTO document_route VALUES
+(
+1,
+'Course Withdraw Form',
+'400014'
+);
+INSERT INTO document_route VALUES
+(
+2,
+'Course Withdraw Form',
+'400017'
+);
+INSERT INTO document_route VALUES
+(
+3,
+'Course Withdraw Form',
+'400001'
+);
+INSERT INTO document_route VALUES
+(
+1,
+'Event Request Form',
+'400017'
+);
+INSERT INTO document_route VALUES
+(
+2,
+'Event Request Form',
+'400003'
+);
+INSERT INTO document_route VALUES
+(
+3,
+'Event Request Form',
+'400018'
+);
+INSERT INTO document_route VALUES
+(
+1,
+'Grade Change Form',
+'400017'
+);
+INSERT INTO document_route VALUES
+(
+2,
+'Grade Change Form',
+'400018'
+);
+INSERT INTO document_route VALUES
+(
+3,
+'Grade Change Form',
+'400013'
+);
+INSERT INTO document_route VALUES
+(
+4,
+'Grade Change Form',
+'400019'
+);
+INSERT INTO document_route VALUES
+(
+1,
+'Semester Freeze Form',
+'400017'
+);
+INSERT INTO document_route VALUES
+(
+2,
+'Semester Freeze Form',
+'400018'
+);
+INSERT INTO document_route VALUES
+(
+3,
+'Semester Freeze Form',
+'400002'
+);
+INSERT INTO document_route VALUES
+(
+4,
+'Semester Freeze Form',
+'400001'
 );
 
 
