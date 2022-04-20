@@ -22,13 +22,32 @@ if($data)
 		$emp_q_id = oci_parse($con, $emp_q); 		
 		$emp_q_r = oci_execute($emp_q_id);
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
-		$response['doc_completed']=$row['COMPLETED'];
+		$temp=$row['COMPLETED'];
+		$response['doc_completed']=$temp;
+		if($temp==0)
+		{
+			$response['doc_completed']='0';
+		}
+		else
+		{
+			$response['doc_completed']=$temp;
+		}
 		
 		$emp_q="SELECT count(*) as ongoing FROM document WHERE emp_id = $emp_id GROUP BY DOC_STATUS HAVING DOC_STATUS=2";
 		$emp_q_id = oci_parse($con, $emp_q); 		
 		$emp_q_r = oci_execute($emp_q_id);
 		$row = oci_fetch_array($emp_q_id, OCI_BOTH+OCI_RETURN_NULLS);
-		$response['doc_on_going']=$row["ONGOING"];
+		$temp=$row['ONGOING'];
+		$response['doc_on_going']=$temp;
+		if($temp==0)
+		{
+			$response['doc_on_going']='0';
+		}
+		else
+		{
+			$response['doc_on_going']=$temp;
+		}
+		
 		
 		$emp_q="SELECT count(*) as returned FROM document WHERE emp_id = $emp_id GROUP BY DOC_STATUS HAVING DOC_STATUS=3";
 		$emp_q_id = oci_parse($con, $emp_q); 		

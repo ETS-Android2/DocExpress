@@ -72,7 +72,7 @@ if($data)
 				$reponse3=array();
 				$response3['step']=$row['DOCST_SERIAL_NO'];
 				$response3['rec_date']=$row['RECEIVED_DATE'];
-				$emp_id_cur=$row['EMP_ID'];
+				$emp_id_cur=$row['EMP_ID_RECEIVER'];
 					$emp_q="select emp_f_name ||' '|| emp_l_name as emp_name,dept_id from employee_n WHERE emp_id = $emp_id_cur";
 					$emp_q_id = oci_parse($con, $emp_q); 		
 					$emp_q_r = oci_execute($emp_q_id);
