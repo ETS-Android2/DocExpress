@@ -564,7 +564,7 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900003',
-'khilat',
+'Khilat',
 'Naqvi',
 3510443568781,
 3000007428,
@@ -574,7 +574,7 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900004',
-'arshad',
+'Arshad',
 'Naeem',
 3510211158998,
 3001754988,
@@ -584,8 +584,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900005',
-'arbab',
-'khan',
+'Arbab',
+'Khan',
 3510530229922,
 3001850922,
 'arbab.khan@nu.edu.pk',
@@ -594,8 +594,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900006',
-'uzair',
-'ibrar',
+'Uzair',
+'Ibrar',
 3510211187771,
 3008136995,
 'uzair.ibrar@nu.edu.pk',
@@ -604,8 +604,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900007',
-'haseeb',
-'rehmat',
+'Haseeb',
+'Rehmat',
 3510215124145,
 3003152907,
 'haseeb.rehmat@nu.edu.pk',
@@ -614,8 +614,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900008',
-'nouman',
-'khan',
+'Nouman',
+'Khan',
 3510129389140,
 3008156911,
 'nouman.khan@nu.edu.pk',
@@ -624,8 +624,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900009',
-'osama',
-'rafique',
+'Osama',
+'Rafique',
 3510211127448,
 3008336977,
 'osama.rafique@nu.edu.pk',
@@ -634,8 +634,8 @@ INSERT INTO applicant VALUES
 INSERT INTO applicant VALUES
 (
 '900010',
-'aqib',
-'ajmal',
+'Aqib',
+'Ajmal',
 3510555287798,
 3008959997,
 'aqib.ajmal@nu.edu.pk',
@@ -756,127 +756,134 @@ INSERT INTO document_status VALUES
 (
 1,
 '800002',
-TO_DATE('2021-10-14','YYYY-MM-DD'),
+TO_DATE('2021-10-15','YYYY-MM-DD'),
 '400001',
+'400002',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 2,
 '800002',
-TO_DATE('2021-10-15','YYYY-MM-DD'),
+TO_DATE('2021-10-16','YYYY-MM-DD'),
 '400002',
+'400003',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 3,
 '800002',
-TO_DATE('2021-10-16','YYYY-MM-DD'),
+TO_DATE('2021-10-17','YYYY-MM-DD'),
 '400003',
+'400004',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 4,
 '800002',
-TO_DATE('2021-10-17','YYYY-MM-DD'),
+TO_DATE('2021-10-18','YYYY-MM-DD'),
 '400004',
+'400005',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 5,
 '800002',
-TO_DATE('2021-10-18','YYYY-MM-DD'),
+TO_DATE('2021-10-19','YYYY-MM-DD'),
 '400005',
+'400006',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 6,
 '800002',
-TO_DATE('2021-10-19','YYYY-MM-DD'),
+TO_DATE('2021-10-20','YYYY-MM-DD'),
 '400006',
+'400007',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 7,
 '800002',
-TO_DATE('2021-10-20','YYYY-MM-DD'),
+TO_DATE('2021-10-21','YYYY-MM-DD'),
 '400007',
+'400008',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 8,
 '800002',
-TO_DATE('2021-10-21','YYYY-MM-DD'),
+TO_DATE('2021-10-22','YYYY-MM-DD'),
 '400008',
+'400009',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 9,
 '800002',
-TO_DATE('2021-10-22','YYYY-MM-DD'),
+TO_DATE('2021-10-23','YYYY-MM-DD'),
 '400009',
+'400010',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 10,
 '800002',
-TO_DATE('2021-10-23','YYYY-MM-DD'),
+TO_DATE('2021-10-24','YYYY-MM-DD'),
 '400010',
+'400011',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 11,
 '800002',
-TO_DATE('2021-10-24','YYYY-MM-DD'),
+TO_DATE('2021-10-25','YYYY-MM-DD'),
 '400011',
+'400012',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 12,
 '800002',
-TO_DATE('2021-10-25','YYYY-MM-DD'),
+TO_DATE('2021-10-26','YYYY-MM-DD'),
 '400012',
+'400013',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 13,
 '800002',
-TO_DATE('2021-10-26','YYYY-MM-DD'),
+TO_DATE('2021-10-27','YYYY-MM-DD'),
 '400013',
+'400014',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 14,
 '800002',
-TO_DATE('2021-10-27','YYYY-MM-DD'),
+TO_DATE('2021-10-28','YYYY-MM-DD'),
 '400014',
+'400015',
 'None'
 );
 INSERT INTO document_status VALUES
 (
 15,
 '800002',
-TO_DATE('2021-10-28','YYYY-MM-DD'),
-'400015',
-'None'
-);
-INSERT INTO document_status VALUES
-(
-16,
-'800002',
 TO_DATE('2021-10-29','YYYY-MM-DD'),
+'400015',
 '400016',
 'None'
 );

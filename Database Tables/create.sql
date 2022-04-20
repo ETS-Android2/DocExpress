@@ -65,7 +65,8 @@ CREATE TABLE document_status
 docst_serial_no NUMBER(6) NOT NULL,
 doc_id VARCHAR2(6) NOT NULL,
 received_date DATE NOT NULL,
-emp_id VARCHAR2(6) NOT NULL,
+emp_id_sender VARCHAR2(6) NOT NULL,
+emp_id_receiver VARCHAR2(6) NOT NULL,
 comments VARCHAR2(50)
 );
 
@@ -111,7 +112,7 @@ ADD (CONSTRAINTS doc_id_pk
 
 ALTER TABLE document_status
 ADD (CONSTRAINTS document_status_id_pk
-	PRIMARY KEY(docst_serial_no)
+	PRIMARY KEY(docst_serial_no,doc_id)
 	);
 	
 ALTER TABLE document_type
@@ -160,8 +161,12 @@ ADD (CONSTRAINTS docst_doc_id_fk
 	FOREIGN KEY(doc_id)
 	REFERENCES document (doc_id)
 	)
-ADD (CONSTRAINTS docst_emp_id_fk
-	FOREIGN KEY(emp_id)
+ADD (CONSTRAINTS docst_emp_id_rec_fk
+	FOREIGN KEY(emp_id_receiver)
+	REFERENCES employee_n (emp_id)
+	)
+ADD (CONSTRAINTS docst_emp_id_sen_fk
+	FOREIGN KEY(emp_id_sender)
 	REFERENCES employee_n (emp_id)
 	);
 	
