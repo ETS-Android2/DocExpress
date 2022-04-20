@@ -9,6 +9,12 @@
     <string name="Ongoing_Document_title">
         <u>My Ongoing Documents</u>
     </string>
+    <string name="Received_Document_title">
+        <u>Received Documents</u>
+    </string>
+    <string name="forward_Document_title">
+        <u>Forward Document</u>
+    </string>
     <string name="closed_Document_title">
         <u>My Closed Documents</u>
     </string>

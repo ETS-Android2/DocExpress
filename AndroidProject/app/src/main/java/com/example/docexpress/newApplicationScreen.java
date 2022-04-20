@@ -266,7 +266,88 @@ public class newApplicationScreen extends AppCompatActivity {
                                                     startActivity(new Intent(newApplicationScreen.this, InsertedDocumentComplete.class));
                                                 }
                                                 else {
-                                                    startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
+                                                    RequestQueue requestQueue;
+                                                    JsonObjectRequest request;
+                                                    try {
+                                                        requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                                        String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_route.php";
+                                                        JSONObject jsonBody = new JSONObject();
+                                                        try {
+                                                            //String user_id_from_table="0";
+                                                            //MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                                            //Cursor data= helper.getuserID();
+                                                            //while (data.moveToNext())
+                                                            //{
+                                                            //    user_id_from_table=data.getString(0);
+                                                            //}
+                                                            //data.close();
+                                                            //helper.close();
+                                                            String user_id_from_table="0";
+                                                            MyDbHelper helperuser=new MyDbHelper(getApplicationContext());
+                                                            Cursor datauser= helperuser.getuserID();
+                                                            while (datauser.moveToNext())
+                                                            {
+                                                                user_id_from_table=datauser.getString(0);
+                                                            }
+                                                            datauser.close();
+                                                            helperuser.close();
+                                                            jsonBody.put("doc_name", doc_name_selected);
+                                                            jsonBody.put("emp_id", user_id_from_table);
+                                                            request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                                                                @Override
+                                                                public void onResponse(JSONObject response) {
+                                                                    JSONArray jsonArray;
+                                                                    try {
+                                                                        jsonArray = response.getJSONArray("doc");
+                                                                        JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                                                        if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                                                        {
+                                                                            Toast.makeText(getApplicationContext(),"No Default Route Found",Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                                                            helper.dropdocrouteTable();
+                                                                            helper.createDocRouteTable();
+                                                                            for(int i=1;i<jsonArray.length();i++)
+                                                                            {
+                                                                                JSONObject docdetail=jsonArray.getJSONObject(i);
+                                                                                String doc_id_ser=docdetail.getString("doc_step_no");
+                                                                                String doc_name_ser=docdetail.getString("doc_name");
+                                                                                String doc_start_date_ser=docdetail.getString("emp_id");
+                                                                                String doc_end_date_ser=docdetail.getString("emp_name");
+                                                                                String doc_app_id_ser=docdetail.getString("emp_rank");
+                                                                                String doc_app_name_ser=docdetail.getString("dept_name");
+                                                                                helper.insertDocRouteTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                                                            }
+                                                                            helper.close();
+                                                                            startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
+                                                                        }
+                                                                    } catch (JSONException e) {
+                                                                        e.printStackTrace();
+                                                                        Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                                                        t2.show();
+                                                                    }
+                                                                }
+                                                            }, new Response.ErrorListener() {
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+                                                                    error.printStackTrace();
+                                                                    Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                            requestQueue.add(request);
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    catch (Exception e)
+                                                    {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    //startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
                                                     //Toast.makeText(getApplicationContext(),docdetail.toString(),Toast.LENGTH_SHORT).show();
                                                 }
                                             }

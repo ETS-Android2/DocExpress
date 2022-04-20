@@ -39,7 +39,7 @@ import io.opencensus.internal.StringUtils;
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     LinearLayout Home_NewApplication, Home_TrackApplication, Home_OngoingApplication,
-            Home_ongoingStatus, Home_closedApplication;
+            Home_ongoingStatus, Home_closedApplication,Home_receivedApplication;
     AppCompatButton Home_backButton;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -84,6 +84,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_OngoingApplication = findViewById(R.id.sent_doc_button);
         Home_ongoingStatus = findViewById(R.id.report_sum_button);
         Home_closedApplication = findViewById(R.id.closed_doc_button);
+        Home_receivedApplication=findViewById(R.id.received_doc_button);
         //Home_backButton = findViewById(R.id.);
 
 //        Home_backButton.setOnClickListener(new View.OnClickListener() {
@@ -411,6 +412,117 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        Home_receivedApplication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                try {
+                    requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/get_doc_received.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        String user_id_from_table="0";
+                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                        Cursor data= helper.getuserID();
+                        while (data.moveToNext())
+                        {
+                            user_id_from_table=data.getString(0);
+                        }
+                        data.close();
+                        helper.close();
+                        jsonBody.put("emp_id", user_id_from_table);
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"No Applications Found",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        MyDbHelper helper=new MyDbHelper(getApplicationContext());
+                                        helper.dropdocreceivedTable();
+                                        helper.createDocReceivedTable();
+                                        for(int i=1;i<jsonArray.length();i++)
+                                        {
+                                            JSONObject docdetail=jsonArray.getJSONObject(i);
+                                            String doc_id= docdetail.getString("doc_id");
+                                            String doc_name=docdetail.getString("doc_name");
+                                            String doc_start_date=docdetail.getString("doc_start_date");
+                                            String doc_due_date=docdetail.getString("doc_due_date");
+                                            String doc_attachment=docdetail.getString("doc_attachment");
+                                            String doc_status=docdetail.getString("doc_status");
+                                            if(doc_status.equalsIgnoreCase("1"))
+                                            {
+                                                doc_status="Completed";
+                                            }
+                                            else if(doc_status.equalsIgnoreCase("2"))
+                                            {
+                                                doc_status="On Going";
+                                            }
+                                            else if(doc_status.equalsIgnoreCase("3"))
+                                            {
+                                                doc_status="Returned";
+                                            }
+                                            else if(doc_status.equalsIgnoreCase("4"))
+                                            {
+                                                doc_status="Rejected";
+                                            }
+                                            String app_id=docdetail.getString("app_id");
+                                            String app_name=docdetail.getString("app_name");
+                                            String starting_emp_id=docdetail.getString("starting_emp_id");
+                                            String starting_emp_name=docdetail.getString("starting_emp_name");
+                                            String starting_emp_rank=docdetail.getString("starting_emp_rank");
+                                            String starting_dept_id=docdetail.getString("starting_dept_id");
+                                            String starting_dept_name=docdetail.getString("starting_dept_name");
+                                            String sender_emp_id=docdetail.getString("sender_emp_id");
+                                            String sender_emp_name=docdetail.getString("sender_emp_name");
+                                            String sender_emp_rank=docdetail.getString("sender_emp_rank");
+                                            String sender_dept_id=docdetail.getString("sender_dept_id");
+                                            String sender_dept_name=docdetail.getString("sender_dept_name");
+                                            String sender_note=docdetail.getString("sender_note");
+                                            helper.insertDocReceivedTable(doc_id,doc_name,doc_start_date,doc_due_date,doc_attachment,
+                                                    doc_status,app_id,app_name,starting_emp_id,
+                                                    starting_emp_name,starting_emp_rank,starting_dept_id,
+                                                    starting_dept_name,sender_emp_id,sender_emp_name,
+                                                    sender_emp_rank,sender_dept_id,sender_dept_name,sender_note);
+                                        }
+                                        helper.close();
+                                        startActivity(new Intent(Home.this, ReceivedDocumentScreen.class));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
+                //startActivity(new Intent(Home.this, ReceivedDocumentScreen.class));
             }
         });
     }

@@ -13,6 +13,12 @@
         android:theme="@style/Theme.DocExpress"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ForwardDocumentScreen"
+            android:exported="false" />
+        <activity
+            android:name=".ReceivedDocumentScreen"
+            android:exported="false" />
+        <activity
             android:name=".InsertedDocumentComplete"
             android:exported="false" />
         <activity
