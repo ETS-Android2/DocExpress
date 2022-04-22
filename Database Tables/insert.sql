@@ -691,7 +691,7 @@ INSERT INTO document VALUES
 'Course Replacement Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-1,
+'pdf/800001.pdf',
 1,
 '400001',
 '900001'
@@ -702,7 +702,7 @@ INSERT INTO document VALUES
 'Clearance Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-2,
+'pdf/800002.pdf',
 2,
 '400001',
 '900001'
@@ -713,7 +713,7 @@ INSERT INTO document VALUES
 'Course Withdraw Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-3,
+'pdf/800003.pdf',
 1,
 '400001',
 '900001'
@@ -724,7 +724,7 @@ INSERT INTO document VALUES
 'Grade Change Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-4,
+'pdf/800004.pdf',
 1,
 '400001',
 '900001'
@@ -735,7 +735,7 @@ INSERT INTO document VALUES
 'Semester Freeze Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-5,
+'pdf/800005.pdf',
 1,
 '400001',
 '900001'
@@ -746,7 +746,7 @@ INSERT INTO document VALUES
 'Event Request Form',
 TO_DATE('2021-06-26','YYYY-MM-DD'),
 TO_DATE('2021-06-26','YYYY-MM-DD'),
-6,
+'pdf/800006.pdf',
 1,
 '400001',
 '900001'

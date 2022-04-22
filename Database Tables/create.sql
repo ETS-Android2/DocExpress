@@ -54,7 +54,7 @@ doc_id VARCHAR2(6) NOT NULL,
 doc_name VARCHAR2(50) NOT NULL,
 doc_start_date DATE NOT NULL,
 doc_due_date DATE,
-doc_attachment NUMBER(13),
+doc_attachment VARCHAR2(25),
 doc_status NUMBER(1),
 emp_id VARCHAR2(6) NOT NULL,
 app_id VARCHAR2(6) NOT NULL
