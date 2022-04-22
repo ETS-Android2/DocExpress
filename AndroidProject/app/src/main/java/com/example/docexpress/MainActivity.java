@@ -26,10 +26,22 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),data.getCount(),Toast.LENGTH_SHORT);
                 if(data.getCount()>0)
                 {
-                    data.close();
-                    helper.close();
-                    Intent intent=new Intent(getApplicationContext(),Home.class);
-                    startActivity(intent);
+                    MyDbHelper helper2=new MyDbHelper(getApplicationContext());
+                    Cursor data2=helper2.getuserRole();
+                    //Toast.makeText(getApplicationContext(),data.getCount(),Toast.LENGTH_SHORT);
+                    while(data2.moveToNext()) {
+                        String user_role = data2.getString(0);
+                        //Toast.makeText(getApplicationContext(),user_role,Toast.LENGTH_SHORT);
+                        data2.close();
+                        helper2.close();
+                        if (user_role.equalsIgnoreCase("applicant")) {
+                            Intent intent = new Intent(getApplicationContext(), StudentHome.class);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), Home.class);
+                            startActivity(intent);
+                        }
+                    }
                 }
                 else {
                     Intent intent = new Intent(MainActivity.this, signIn.class);

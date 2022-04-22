@@ -452,4 +452,11 @@ public class MyDbHelper extends SQLiteOpenHelper {
         //MyDB.close();
         return cursor;
     }
+    public Cursor getuserRole()
+    {
+        SQLiteDatabase MyDB=this.getReadableDatabase() ;
+        Cursor cursor=MyDB.rawQuery("SELECT user_job FROM users",null);
+        //MyDB.close();
+        return cursor;
+    }
 }

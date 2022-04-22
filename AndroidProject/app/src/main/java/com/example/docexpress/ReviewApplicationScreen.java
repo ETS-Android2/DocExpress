@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class ReviewApplicationScreen extends AppCompatActivity {
     List<tracked_document> track_doc_list;
 
     TextView Doc_ID, Doc_Name, Start_Date, Due_Date, Attachment, Status, Emp_Name, Department, Applicant_ID, Applicant_Name;
+    ImageView file_attach;
     String strDoc_ID, strDoc_Name, strStart_Date, strDue_Date, strAttachment, strStatus, strEmp_Name, strDepartment, strApplicant_ID, strApplicant_Name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class ReviewApplicationScreen extends AppCompatActivity {
         Department = findViewById(R.id.review_Department);
         Applicant_ID = findViewById(R.id.review_ApplicantID);
         Applicant_Name = findViewById(R.id.review_ApplicantName);
+        file_attach=findViewById(R.id.file_attach);
 
         Intent intent = getIntent();
 
@@ -86,5 +91,12 @@ public class ReviewApplicationScreen extends AppCompatActivity {
         Department.setText(strDepartment);
         Applicant_ID.setText(strApplicant_ID);
         Applicant_Name.setText(strApplicant_Name);
+
+        file_attach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "File Attach Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

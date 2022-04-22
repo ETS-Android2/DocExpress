@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgressScreen extends AppCompatActivity {
+    private long mLastClickTime = 0;
     TextView textView;
     PieChart pieChart;
     PieData pieData;
@@ -73,6 +75,10 @@ public class ProgressScreen extends AppCompatActivity {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 String s=e.getData().toString();
                 if(s.equalsIgnoreCase("1"))
                 {

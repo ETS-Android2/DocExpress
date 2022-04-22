@@ -2,12 +2,13 @@ package com.example.docexpress;
 
 public class ReceivedDocumentClass {
     private String tracking_id,doc_name,start_date,end_date,status,applicant_id,applicant_name,
-            starting_emp_name,starting_emp_rank,starting_emp_dept,sender_emp_name,sender_emp_rank,sender_emp_dept,sender_emp_note;
+            starting_emp_name,starting_emp_id,starting_emp_rank,starting_emp_dept,sender_emp_name,sender_emp_id,sender_emp_rank,sender_emp_dept,sender_emp_note;
 
     public ReceivedDocumentClass(String tracking_id, String doc_name, String start_date, String end_date, String status,
                                  String applicant_id, String applicant_name, String starting_emp_name,
                                  String starting_emp_rank, String starting_emp_dept,
-                                 String sender_emp_name, String sender_emp_rank, String sender_emp_dept, String sender_emp_note) {
+                                 String sender_emp_name, String sender_emp_rank, String sender_emp_dept, String sender_emp_note
+                                 ) {
         this.tracking_id = tracking_id;
         this.doc_name = doc_name;
         this.start_date = start_date;

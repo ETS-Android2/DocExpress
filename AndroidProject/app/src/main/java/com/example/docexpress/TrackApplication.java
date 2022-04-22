@@ -4,6 +4,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +40,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 public class TrackApplication extends AppCompatActivity {
+    private long mLastClickTime = 0;
     boolean isValid3=true;
     AppCompatButton trackApp_Button;
     AppCompatButton trackApplication_backButton;
@@ -52,6 +54,10 @@ public class TrackApplication extends AppCompatActivity {
         trackApp_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 isValid3 = true;
                 checkCredentials();
                 if (isValid3)

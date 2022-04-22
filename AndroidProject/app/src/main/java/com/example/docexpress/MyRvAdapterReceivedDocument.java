@@ -3,6 +3,7 @@ package com.example.docexpress;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -29,8 +31,10 @@ import java.util.List;
 public class MyRvAdapterReceivedDocument extends RecyclerView.Adapter<MyRvAdapterReceivedDocument.MyViewHolderReceived> {
     List<ReceivedDocumentClass> received_doc;
     Context c;
+    private long mLastClickTime = 0;
     public MyRvAdapterReceivedDocument(List<ReceivedDocumentClass> received_doc, Context c) {
         this.received_doc=received_doc;
+        this.mLastClickTime = 0;
         this.c=c;
     }
 
@@ -60,6 +64,80 @@ public class MyRvAdapterReceivedDocument extends RecyclerView.Adapter<MyRvAdapte
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                RequestQueue requestQueuec;
+                JsonObjectRequest requestc;
+                try {
+                    requestQueuec = Volley.newRequestQueue(v.getContext());
+                    String server_address="http://"+holder.itemView.getContext().getString(R.string.server_ip)+"/fyp/mobile/get_doc_customized_route.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        String user_id_from_table="0";
+                        MyDbHelper helperuser=new MyDbHelper(v.getContext());
+                        Cursor datauser= helperuser.getuserID();
+                        while (datauser.moveToNext())
+                        {
+                            user_id_from_table=datauser.getString(0);
+                        }
+                        datauser.close();
+                        helperuser.close();
+                        jsonBody.put("emp_id", user_id_from_table);
+                        requestc= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("1"))
+                                    {
+                                        Toast.makeText(v.getContext(),"No Route Found",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        MyDbHelper helper_customized=new MyDbHelper(v.getContext());
+                                        helper_customized.dropdocroutecustomizedTable();
+                                        helper_customized.createDocRouteCustomizedTable();
+                                        for(int i=1;i<jsonArray.length();i++)
+                                        {
+                                            JSONObject docdetail=jsonArray.getJSONObject(i);
+                                            String doc_id_ser=docdetail.getString("doc_step_no");
+                                            //String doc_name_ser=docdetail.getString("doc_name");
+                                            String doc_start_date_ser=docdetail.getString("emp_id");
+                                            String doc_end_date_ser=docdetail.getString("emp_name");
+                                            String doc_app_id_ser=docdetail.getString("emp_rank");
+                                            String doc_app_name_ser=docdetail.getString("dept_name");
+                                            helper_customized.insertDocRouteCustomizedTable(doc_id_ser,"NA",doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
+                                        }
+                                        helper_customized.close();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(v.getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueuec.add(requestc);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
                 //Toast.makeText(c,received_doc.get(position).getTracking_id(),Toast.LENGTH_SHORT).show();
                 String doc_id_cur=received_doc.get(position).getTracking_id();
                 String doc_name_selected=received_doc.get(position).getDoc_name();
@@ -122,6 +200,50 @@ public class MyRvAdapterReceivedDocument extends RecyclerView.Adapter<MyRvAdapte
                                         //startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
                                         Intent intent = new Intent(v.getContext(), ForwardDocumentScreen.class);
                                         intent.putExtra("Doc_ID",doc_id_cur);
+                                        String emp_id_from_table="0";
+                                        String emp_name_selected=received_doc.get(position).getStarting_emp_name();
+                                        MyDbHelper helperuser=new MyDbHelper(c);
+                                        Cursor datauser= helperuser.getdocRouteEmpId(emp_name_selected);
+                                        while (datauser.moveToNext())
+                                        {
+                                            emp_id_from_table=datauser.getString(0);
+                                        }
+                                        datauser.close();
+                                        helperuser.close();
+                                        if(emp_id_from_table.equalsIgnoreCase("0"))
+                                        {
+                                            MyDbHelper helperuser2=new MyDbHelper(c);
+                                            Cursor datauser2= helperuser2.getdocRouteCustomizedEmpId(emp_name_selected);
+                                            while (datauser2.moveToNext())
+                                            {
+                                                emp_id_from_table=datauser2.getString(0);
+                                            }
+                                            datauser2.close();
+                                            helperuser2.close();
+                                        }
+                                        String emp_id_from_table2="0";
+                                        String sender_emp_id=received_doc.get(position).getSender_emp_name();
+                                        MyDbHelper helperuser2=new MyDbHelper(c);
+                                        Cursor datauser2= helperuser2.getdocRouteEmpId(sender_emp_id);
+                                        while (datauser2.moveToNext())
+                                        {
+                                            emp_id_from_table2=datauser2.getString(0);
+                                        }
+                                        datauser2.close();
+                                        helperuser2.close();
+                                        if(emp_id_from_table2.equalsIgnoreCase("0"))
+                                        {
+                                            MyDbHelper helperuser3=new MyDbHelper(c);
+                                            Cursor datauser3= helperuser3.getdocRouteCustomizedEmpId(sender_emp_id);
+                                            while (datauser3.moveToNext())
+                                            {
+                                                emp_id_from_table2=datauser3.getString(0);
+                                            }
+                                            datauser3.close();
+                                            helperuser3.close();
+                                        }
+                                        intent.putExtra("starting_emp_id",emp_id_from_table);
+                                        intent.putExtra("sender_emp_id",emp_id_from_table2);
                                         v.getContext().startActivity(intent);
                                     }
                                 } catch (JSONException e) {

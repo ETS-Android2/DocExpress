@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ForwardDocumentScreen extends AppCompatActivity {
+    private long mLastClickTime = 0;
     LinearLayout send_to_owner_ll,send_to_sender_ll,track_ll;
     TextView Doc_ID, Doc_Name, Start_Date, Due_Date, Attachment, Status, Applicant_ID, Applicant_Name,
             starting_emp_name,starting_emp_rank,starting_emp_dept,sender_emp_name,sender_emp_rank,sender_emp_dept,sender_emp_note;
@@ -47,6 +49,8 @@ public class ForwardDocumentScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         String strDoc_ID = intent.getStringExtra("Doc_ID");
+        String starting_emp_id = intent.getStringExtra("starting_emp_id");
+        String sender_emp_id = intent.getStringExtra("sender_emp_id");
         Doc_ID = findViewById(R.id.forward_TrackingID);
         Doc_Name = findViewById(R.id.forward_DocName);
         Start_Date = findViewById(R.id.forward_StartDate);
@@ -66,7 +70,7 @@ public class ForwardDocumentScreen extends AppCompatActivity {
         send_to_owner_ll=findViewById(R.id.forward_send_to_owner_button);
         send_to_sender_ll=findViewById(R.id.foward_sendback_button);
         track_ll=findViewById(R.id.forward_track_button);
-        String doc_attachment = "";
+        String doc_attachment = "1";
         radioGroup = findViewById(R.id.forward_rg);
         radioGroup.check(R.id.forward_default_route_rb);
         MyDbHelper helper4=new MyDbHelper(getApplicationContext());
@@ -89,21 +93,176 @@ public class ForwardDocumentScreen extends AppCompatActivity {
             sender_emp_dept.setText(data4.getString(17));
             sender_emp_note.setText(data4.getString(18));
         }
+        MyDbHelper helper6=new MyDbHelper(getApplicationContext());
+        helper6.dropdocInsertedTable();
+        helper6.createDocInsertedTable();
+        String doc_id_ser=Doc_ID.getText().toString();
+        String doc_name_ser=Doc_Name.getText().toString();
+        String doc_start_date_ser=Start_Date.getText().toString();
+        String doc_end_date_ser=Due_Date.getText().toString();
+        String doc_attach_ser=doc_attachment;
+        String doc_staus_ser = Status.getText().toString();
+        String doc_emp_id_ser ="0";// .getText().toString();
+        String doc_app_id_ser = Applicant_ID.getText().toString();
+        String doc_emp_name_ser = starting_emp_name.getText().toString();
+        String doc_dept_name_ser = starting_emp_dept.getText().toString();
+        String doc_app_name_ser = Applicant_Name.getText().toString();
+        helper6.insertDocInsertedDetails(doc_id_ser,doc_name_ser,doc_start_date_ser,
+                doc_end_date_ser,doc_attach_ser,doc_staus_ser,doc_emp_id_ser,doc_app_id_ser,
+                doc_emp_name_ser,doc_dept_name_ser,doc_app_name_ser);
+        helper6.close();
         send_to_owner_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                String user_id_from_table="0";
+                MyDbHelper helperuser3=new MyDbHelper(getApplicationContext());
+                Cursor datauser3= helperuser3.getuserID();
+                while (datauser3.moveToNext())
+                {
+                    user_id_from_table=datauser3.getString(0);
+                }
+                datauser3.close();
+                helperuser3.close();
+                //Toast.makeText(c,doc_id,Toast.LENGTH_SHORT).show();
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                try {
+                    requestQueue = Volley.newRequestQueue(v.getContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/insert_doc_status.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        jsonBody.put("doc_id", Doc_ID.getText().toString());
+                        jsonBody.put("emp_id_sender", user_id_from_table);
+                        jsonBody.put("emp_id_receiver", starting_emp_id);
+                        checkCredentials();
+                        jsonBody.put("comments", comments);
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("2"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Document Sent Successfully",Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(ForwardDocumentScreen.this, Home.class);
+                                        v.getContext().startActivity(intent);
+                                    }
+                                    else if(received_data_head.getString("reqcode").equalsIgnoreCase("3"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Document Sending Failed",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
         send_to_sender_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                String user_id_from_table="0";
+                MyDbHelper helperuser3=new MyDbHelper(getApplicationContext());
+                Cursor datauser3= helperuser3.getuserID();
+                while (datauser3.moveToNext())
+                {
+                    user_id_from_table=datauser3.getString(0);
+                }
+                datauser3.close();
+                helperuser3.close();
+                //Toast.makeText(c,doc_id,Toast.LENGTH_SHORT).show();
+                RequestQueue requestQueue;
+                JsonObjectRequest request;
+                try {
+                    requestQueue = Volley.newRequestQueue(v.getContext());
+                    String server_address="http://"+getString(R.string.server_ip)+"/fyp/mobile/insert_doc_status.php";
+                    JSONObject jsonBody = new JSONObject();
+                    try {
+                        jsonBody.put("doc_id", Doc_ID.getText().toString());
+                        jsonBody.put("emp_id_sender", user_id_from_table);
+                        jsonBody.put("emp_id_receiver", sender_emp_id);
+                        checkCredentials();
+                        jsonBody.put("comments", comments);
+                        request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray;
+                                try {
+                                    jsonArray = response.getJSONArray("doc");
+                                    JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                    if(received_data_head.getString("reqcode").equalsIgnoreCase("2"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Document Sent Successfully",Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(ForwardDocumentScreen.this, Home.class);
+                                        v.getContext().startActivity(intent);
+                                    }
+                                    else if(received_data_head.getString("reqcode").equalsIgnoreCase("3"))
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Document Sending Failed",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast t2 = Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT);
+                                    t2.show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
         track_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 try {
@@ -260,7 +419,7 @@ public class ForwardDocumentScreen extends AppCompatActivity {
                             insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2.getString(0),data2.getString(3),data2.getString(4),data2.getString(5),"No"));
                         }
 //                        insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails("1","Khilat Mehdi","Academics Officer","CS Academics","No"));
-                        MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,ForwardDocumentScreen.this);
+                        MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,comments,ForwardDocumentScreen.this);
                         RecyclerView.LayoutManager lm=new LinearLayoutManager(ForwardDocumentScreen.this);
                         recyclerView.setLayoutManager(lm);
                         recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute);
@@ -322,7 +481,7 @@ public class ForwardDocumentScreen extends AppCompatActivity {
                                                 {
                                                     insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2_customized2.getString(0),data2_customized2.getString(3),data2_customized2.getString(4),data2_customized2.getString(5),"No"));
                                                 }
-                                                MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute2=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,ForwardDocumentScreen.this);
+                                                MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute2=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,comments,ForwardDocumentScreen.this);
                                                 RecyclerView.LayoutManager lm2=new LinearLayoutManager(ForwardDocumentScreen.this);
                                                 recyclerView.setLayoutManager(lm2);
                                                 recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute2);
@@ -443,7 +602,7 @@ public class ForwardDocumentScreen extends AppCompatActivity {
                 insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2.getString(0),data2.getString(3),data2.getString(4),data2.getString(5),"No"));
             }
 //            insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails("1","Khilat Mehdi","Academics Officer","CS Academics","No"));
-            MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,this);
+            MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,comments,this);
             RecyclerView.LayoutManager lm=new LinearLayoutManager(this);
             recyclerView.setLayoutManager(lm);
             recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute);

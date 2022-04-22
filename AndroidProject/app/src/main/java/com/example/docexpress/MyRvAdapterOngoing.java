@@ -1,7 +1,11 @@
 package com.example.docexpress;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +32,10 @@ import java.util.List;
 public class MyRvAdapterOngoing extends RecyclerView.Adapter<MyRvAdapterOngoing.MyViewHolderOngoing> {
     List<Ongoing_doc_class> ongoing_doc;
     Context c;
+    private long mLastClickTime = 0;
     public MyRvAdapterOngoing(List<Ongoing_doc_class> ongoing_doc, Context c) {
         this.ongoing_doc=ongoing_doc;
+        mLastClickTime = 0;
         this.c=c;
     }
 
@@ -52,6 +58,10 @@ public class MyRvAdapterOngoing extends RecyclerView.Adapter<MyRvAdapterOngoing.
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 //Toast.makeText(c,ongoing_doc.get(position).getTracking_id(),Toast.LENGTH_SHORT).show();
                 //Intent intent = new Intent(v.getContext(), TrackApplication.class);
                 //v.getContext().startActivity(intent);
@@ -121,6 +131,83 @@ public class MyRvAdapterOngoing extends RecyclerView.Adapter<MyRvAdapterOngoing.
                     Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+        holder.ll.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String dpc_id_selected=ongoing_doc.get(position).getTracking_id();
+                AlertDialog.Builder dialog=new AlertDialog.Builder(v.getContext());
+                dialog.setTitle("Mark this document complete? Document ID= "+ongoing_doc.get(position).getTracking_id());
+                //dialog.setMessage();
+
+                //Toast.makeText(c,emp_id_from_table,Toast.LENGTH_SHORT).show();
+
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(c,doc_id,Toast.LENGTH_SHORT).show();
+                        RequestQueue requestQueue;
+                        JsonObjectRequest request;
+                        try {
+                            requestQueue = Volley.newRequestQueue(v.getContext());
+                            String server_address="http://"+holder.itemView.getContext().getString(R.string.server_ip)+"/fyp/mobile/set_doc_status.php";
+                            JSONObject jsonBody = new JSONObject();
+                            try {
+                                jsonBody.put("doc_id", dpc_id_selected);
+                                request= new JsonObjectRequest(Request.Method.POST, server_address, jsonBody, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        JSONArray jsonArray;
+                                        try {
+                                            jsonArray = response.getJSONArray("doc");
+                                            JSONObject received_data_head=jsonArray.getJSONObject(0);
+                                            if(received_data_head.getString("reqcode").equalsIgnoreCase("2"))
+                                            {
+                                                Toast.makeText(c,"Document has been Marked Completed",Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(v.getContext(), Home.class);
+                                                v.getContext().startActivity(intent);
+                                            }
+                                            else if(received_data_head.getString("reqcode").equalsIgnoreCase("3"))
+                                            {
+                                                Toast.makeText(c,"Could Not Update Document Status",Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast t2 = Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT);
+                                            t2.show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                        Toast.makeText(v.getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                requestQueue.add(request);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            Toast.makeText(v.getContext(),e.toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(c,"document not sendt",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog d=dialog.create();
+                d.show();
+                //Toast.makeText(v.getContext(),"Long Clicked",Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
     }

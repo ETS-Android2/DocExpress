@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,11 @@ import java.util.List;
 
 public class MyRvAdapterInsertedDocumentRoute extends RecyclerView.Adapter<MyRvAdapterInsertedDocumentRoute.MyViewHolderInsertedDocumentRoute> {
     List<InsertedDocumentRouteDetails> insertedDocumentRouteDetails;
+    String comments;
     Context c;
-    public MyRvAdapterInsertedDocumentRoute(List<InsertedDocumentRouteDetails> insertedDocumentRouteDetails, Context c) {
+    public MyRvAdapterInsertedDocumentRoute(List<InsertedDocumentRouteDetails> insertedDocumentRouteDetails,String comments, Context c) {
         this.insertedDocumentRouteDetails=insertedDocumentRouteDetails;
+        this.comments=comments;
         this.c=c;
     }
     @NonNull
@@ -101,9 +104,9 @@ public class MyRvAdapterInsertedDocumentRoute extends RecyclerView.Adapter<MyRvA
                         {
                             doc_id=data4.getString(0);
                         }
+                        //helper4.dropdocInsertedTable();
                         data4.close();
                         helper4.close();
-                        String comments="NONE";
                         //Toast.makeText(c,doc_id,Toast.LENGTH_SHORT).show();
                         RequestQueue requestQueue;
                         JsonObjectRequest request;

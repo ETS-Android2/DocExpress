@@ -6,7 +6,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,10 +16,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,6 +46,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,9 +56,14 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class newApplicationScreen extends AppCompatActivity {
-
+    Uri uri;
+    public String PDF_UPLOAD_HTTP_URL = "";
+    String PdfNameHolder="1";
+    String PdfPathHolder, PdfID;
+    private long mLastClickTime = 0;
     String document_status="1";
     Boolean isFileSelected=false;
     private RadioGroup radioGroup;
@@ -61,14 +74,18 @@ public class newApplicationScreen extends AppCompatActivity {
     ImageView duedateimg;
     EditText applicantid;
     EditText duedate;
+    EditText forwad_commetns;
     int applicant_id;
     boolean isValid2=true;
+    String comments;
     AppCompatButton newApplication_backButton;
     private Spinner spinner;
     String doc_name_selected="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PDF_UPLOAD_HTTP_URL = "http://"+getString(R.string.server_ip)+"/fyp/mobile/upload_pdf.php";
+        AllowRunTimePermission();
         Intent intent2 = getIntent();
         String doc_size = intent2.getStringExtra("doc_numbers");
         //Toast.makeText(getApplicationContext(),doc_size,Toast.LENGTH_SHORT).show();
@@ -96,6 +113,7 @@ public class newApplicationScreen extends AppCompatActivity {
         applicantid=findViewById(R.id.applicantid);
         duedate=findViewById(R.id.new_duedate);
         duedateimg=findViewById(R.id.new_deudateimg);
+        forwad_commetns=findViewById(R.id.new_comments_text);
         newApplication_backButton = findViewById(R.id.newApplication_backButton);
         spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(newApplicationScreen.this,
@@ -188,13 +206,21 @@ public class newApplicationScreen extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                //PdfUploadFunction();
                 isValid2=true;
                 checkCredentials();
+                checkCredentials2();
                 if(isValid2) {
                     isValid2=true;
                     if(isFileSelected)
                     {
+                        //PdfUploadFunction();
                         applicant_id = Integer.parseInt(applicantid.getText().toString());
+                        comments=forwad_commetns.getText().toString();
                         //Toast t = Toast.makeText(getApplicationContext(), "arshad", Toast.LENGTH_SHORT);
                         //Toast t = Toast.makeText(getApplicationContext(), duedate.getText().toString(), Toast.LENGTH_SHORT);
                         //t.show();
@@ -239,6 +265,7 @@ public class newApplicationScreen extends AppCompatActivity {
                                                 helper.createDocInsertedTable();
                                                 JSONObject docdetail=jsonArray.getJSONObject(1);
                                                 String doc_id_ser=docdetail.getString("doc_id");
+                                                PdfNameHolder=doc_id_ser;
                                                 String doc_name_ser=docdetail.getString("doc_name");
                                                 String doc_start_date_ser=docdetail.getString("doc_start_date");
                                                 String doc_end_date_ser=docdetail.getString("doc_due_date");
@@ -263,9 +290,12 @@ public class newApplicationScreen extends AppCompatActivity {
                                                 helper.close();
                                                 if(document_status.equalsIgnoreCase("1"))
                                                 {
-                                                    startActivity(new Intent(newApplicationScreen.this, InsertedDocumentComplete.class));
+                                                    PdfUploadFunction();
+                                                    Intent intent=new Intent(newApplicationScreen.this, InsertedDocumentComplete.class);
+                                                    startActivity(intent);
                                                 }
                                                 else {
+                                                    PdfUploadFunction();
                                                     RequestQueue requestQueue;
                                                     JsonObjectRequest request;
                                                     try {
@@ -321,7 +351,10 @@ public class newApplicationScreen extends AppCompatActivity {
                                                                                 helper.insertDocRouteTable(doc_id_ser,doc_name_ser,doc_start_date_ser,doc_end_date_ser,doc_app_id_ser,doc_app_name_ser);
                                                                             }
                                                                             helper.close();
-                                                                            startActivity(new Intent(newApplicationScreen.this, InsetedDocument.class));
+                                                                            Intent intent=new Intent(newApplicationScreen.this, InsetedDocument.class);
+                                                                            checkCredentials2();
+                                                                            intent.putExtra("new_comments",comments);
+                                                                            startActivity(intent);
                                                                         }
                                                                     } catch (JSONException e) {
                                                                         e.printStackTrace();
@@ -438,7 +471,37 @@ public class newApplicationScreen extends AppCompatActivity {
             uploaded_file_name_text.setText(displayName);
             uploaded_file_name_close.setVisibility(View.VISIBLE);
             isFileSelected=true;
+            uri = data.getData();
             //Toast.makeText(getApplicationContext(),displayName,Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void PdfUploadFunction() {
+
+        //PdfNameHolder = PdfNameEditText.getText().toString().trim();
+
+        PdfPathHolder = FilePath.getPath(this, uri);
+
+        if (PdfPathHolder == null) {
+
+            Toast.makeText(this, "Please move your PDF file to internal storage & try again.", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            try {
+
+                PdfID = UUID.randomUUID().toString();
+
+                new MultipartUploadRequest(this, PdfID, PDF_UPLOAD_HTTP_URL)
+                        .addFileToUpload(PdfPathHolder, "pdf")
+                        .addParameter("name", PdfNameHolder)
+                        .setNotificationConfig(null)
+                        .setMaxRetries(5)
+                        .startUpload();
+
+            } catch (Exception exception) {
+
+                Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
     void checkCredentials() {
@@ -460,5 +523,51 @@ public class newApplicationScreen extends AppCompatActivity {
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
+    }
+    public void checkCredentials2() {
+        if (isEmpty2(forwad_commetns)) {
+            comments="None";
+        }
+        else
+        {
+            comments=forwad_commetns.getText().toString();
+        }
+    }
+    public boolean isEmpty2(EditText text) {
+        CharSequence str = text.getText().toString();
+        return TextUtils.isEmpty(str);
+    }
+    public void AllowRunTimePermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(newApplicationScreen.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+        {
+
+            Toast.makeText(newApplicationScreen.this,"READ_EXTERNAL_STORAGE permission Access Dialog", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(newApplicationScreen.this,new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int RC, String per[], int[] Result) {
+
+        super.onRequestPermissionsResult(RC, per, Result);
+        switch (RC) {
+
+            case 1:
+
+                if (Result.length > 0 && Result[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //Toast.makeText(newApplicationScreen.this, "Permission Granted", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    //Toast.makeText(newApplicationScreen.this, "Permission Canceled", Toast.LENGTH_LONG).show();
+
+                }
+                break;
+        }
     }
 }

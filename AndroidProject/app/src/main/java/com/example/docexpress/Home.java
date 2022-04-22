@@ -13,6 +13,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     TextView user_name_nav,user_job_nav;
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_closedApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 try {
@@ -174,6 +180,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_NewApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 final String[] doc_size = {"0"};
@@ -249,6 +259,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_OngoingApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 try {
@@ -326,6 +340,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_ongoingStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 try {
@@ -418,6 +436,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Home_receivedApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 RequestQueue requestQueue;
                 JsonObjectRequest request;
                 try {

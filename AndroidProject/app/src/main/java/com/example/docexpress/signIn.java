@@ -2,6 +2,7 @@ package com.example.docexpress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class signIn extends AppCompatActivity {
+    private long mLastClickTime = 0;
     AppCompatButton signIn_Button;
     EditText username;
     EditText password;
@@ -44,7 +46,7 @@ public class signIn extends AppCompatActivity {
     TextView signUp;
     String server_response;
     String signin_server_response2;
-    String signin_server_response_user_id,user_name_ser,user_job_ser;
+    String signin_server_response_user_id,signin_server_response_user_role,user_name_ser,user_job_ser;
     int signin_server_response=0;
     JSONObject jo;
     String sSDR;
@@ -67,6 +69,10 @@ public class signIn extends AppCompatActivity {
         signIn_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 //spinner.setVisibility(View.VISIBLE);
 //                runOnUiThread(new Runnable() {
 //                    @Override
@@ -130,6 +136,8 @@ public class signIn extends AppCompatActivity {
                             signin_server_response_user_id=sSDR;
                             sSDR=jo.getString("emp_name");
                             user_name_ser=sSDR;
+                            sSDR=jo.getString("role");
+                            signin_server_response_user_role=sSDR;
                             sSDR=jo.getString("emp_job");
                             user_job_ser=sSDR;
                             //sSDR=Integer.toString(signin_server_response);
@@ -165,9 +173,17 @@ public class signIn extends AppCompatActivity {
                         MyDbHelper helper=new MyDbHelper(getApplicationContext());
                         helper.insertUserID(signin_server_response_user_id,user_name_ser,user_job_ser);
                         helper.close();
-                        Intent i = new Intent(signIn.this, Home.class);
-                        startActivity(i);
-                        finish();
+                        if(signin_server_response_user_role.equalsIgnoreCase("employee")) {
+                            Intent i = new Intent(signIn.this, Home.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else
+                        {
+                            Intent i = new Intent(signIn.this, StudentHome.class);
+                            startActivity(i);
+                            finish();
+                        }
                         //we close this activity
                     } else if(signin_server_response==0) {
                         Toast t = Toast.makeText(getApplicationContext(), "Could Not Connect To Server", Toast.LENGTH_SHORT);

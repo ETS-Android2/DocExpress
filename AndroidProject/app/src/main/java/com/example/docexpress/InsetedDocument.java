@@ -37,7 +37,9 @@ public class InsetedDocument extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inseted_document);
-
+        Intent intent=getIntent();
+        String new_comment=intent.getStringExtra("new_comments");
+        //Toast.makeText(getApplicationContext(),new_comment,Toast.LENGTH_SHORT).show();
         Doc_ID= findViewById(R.id.inserted_TrackingID);
         Doc_Name = findViewById(R.id.inserted_DocName);
         Start_Date = findViewById(R.id.inserted_StartDate);
@@ -88,7 +90,7 @@ public class InsetedDocument extends AppCompatActivity {
                             insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2.getString(0),data2.getString(3),data2.getString(4),data2.getString(5),"No"));
                         }
                         //insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails("1","Khilat Mehdi","Academics Officer","CS Academics","No"));
-                        MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,InsetedDocument.this);
+                        MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,new_comment,InsetedDocument.this);
                         RecyclerView.LayoutManager lm=new LinearLayoutManager(InsetedDocument.this);
                         recyclerView.setLayoutManager(lm);
                         recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute);
@@ -150,7 +152,7 @@ public class InsetedDocument extends AppCompatActivity {
                                                 {
                                                     insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2_customized2.getString(0),data2_customized2.getString(3),data2_customized2.getString(4),data2_customized2.getString(5),"No"));
                                                 }
-                                                MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute2=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,InsetedDocument.this);
+                                                MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute2=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,new_comment,InsetedDocument.this);
                                                 RecyclerView.LayoutManager lm2=new LinearLayoutManager(InsetedDocument.this);
                                                 recyclerView.setLayoutManager(lm2);
                                                 recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute2);
@@ -197,7 +199,7 @@ public class InsetedDocument extends AppCompatActivity {
                insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails(data2.getString(0),data2.getString(3),data2.getString(4),data2.getString(5),"No"));
             }
             //insertedDocumentRouteDetails.add(new InsertedDocumentRouteDetails("1","Khilat Mehdi","Academics Officer","CS Academics","No"));
-            MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,this);
+            MyRvAdapterInsertedDocumentRoute myRvAdapterInsertedDocumentRoute=new MyRvAdapterInsertedDocumentRoute(insertedDocumentRouteDetails,new_comment,this);
             RecyclerView.LayoutManager lm=new LinearLayoutManager(this);
             recyclerView.setLayoutManager(lm);
             recyclerView.setAdapter(myRvAdapterInsertedDocumentRoute);
