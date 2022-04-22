@@ -27,12 +27,13 @@ if($data)
 		if($row)
 		{
 			$docid=$row['COUNT(*)']+800001;
+			$docpath="pdf/".$docid.".pdf";
 			$doc_id_q="SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY') as cdate FROM dual";
 			$doc_id_q_id = oci_parse($con, $doc_id_q); 		
 			$doc_id_q_r = oci_execute($doc_id_q_id);
 			$row = oci_fetch_array($doc_id_q_id, OCI_BOTH+OCI_RETURN_NULLS);
 			$cdate=$row['CDATE'];
-			$doc_insert_q="INSERT INTO document VALUES($docid,'$doc_name',to_date('$cdate','DD-MM-YYYY'),to_date('$doc_due_date','DD-MM-YYYY'),$doc_attachment,$doc_status,$emp_id,$app_id)";
+			$doc_insert_q="INSERT INTO document VALUES($docid,'$doc_name',to_date('$cdate','DD-MM-YYYY'),to_date('$doc_due_date','DD-MM-YYYY'),'$docpath',$doc_status,$emp_id,$app_id)";
 			$doc_insert_q_id = oci_parse($con, $doc_insert_q); 		
 			$doc_insert_q_r = oci_execute($doc_insert_q_id);
 			if($doc_insert_q_r)
@@ -82,6 +83,7 @@ if($data)
 			{
 				$response['id']="NA";
 				$response['reqmsg']="Record Insertion Failed1";
+				$response['doc_name']=$doc_name;
 				$response['reqcode']="3";
 				$response2['doc'][0]=$response;
 			}
